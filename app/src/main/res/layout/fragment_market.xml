@@ -10,7 +10,8 @@
         android:id="@+id/marketfragment_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+        style="@style/Widget.AppCompat.Toolbar"
+        tools:ignore="MissingConstraints"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/marketfragment_recyclerview"

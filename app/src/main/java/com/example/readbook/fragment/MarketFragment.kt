@@ -12,7 +12,7 @@ class MarketFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(binding.marketfragmentToolbar)
+        //setSupportActionBar(binding.marketfragmentToolbar)
     }
 
     override fun onCreateView(
