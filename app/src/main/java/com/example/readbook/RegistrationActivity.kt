@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import com.example.readbook.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
@@ -95,14 +96,14 @@ class RegistrationActivity : AppCompatActivity() {
                                                 .child("$userIdSt/photo").downloadUrl.addOnSuccessListener {
                                                     userProfile = it
                                                     Log.d("이미지 URL", "$userProfile")
-                                                    val friend = Friend(
+                                                    val user = User(
                                                         email.toString(),
                                                         name.toString(),
                                                         userProfile.toString(),
                                                         userIdSt
                                                     )
                                                     database.child("users").child(userId.toString())
-                                                        .setValue(friend)
+                                                        .setValue(user)
                                                 }
                                         }
                                     Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT)

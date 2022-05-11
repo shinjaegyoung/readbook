@@ -16,15 +16,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.readbook.ChatModel
-import com.example.readbook.ChatModel.Comment
-import com.example.readbook.Friend
+import com.example.readbook.model.ChatModel
+import com.example.readbook.model.ChatModel.Comment
+import com.example.readbook.model.User
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_message.*
-import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -105,14 +104,14 @@ class MessageActivity : AppCompatActivity() {
     inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.MessageViewHolder>() {
 
         private val comments = ArrayList<Comment>()
-        private var friend : Friend? = null
+        private var user : User? = null
         init{
             fireDatabase.child("users").child(destinationUid.toString()).addListenerForSingleValueEvent(object : ValueEventListener{
                 override fun onCancelled(error: DatabaseError) {
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    friend = snapshot.getValue<Friend>()
-                    messageActivity_textView_topName.text = friend?.name
+                    user = snapshot.getValue<User>()
+                    messageActivity_textView_topName.text = user?.name
                     getMessageList()
                 }
             })
@@ -153,10 +152,10 @@ class MessageActivity : AppCompatActivity() {
                 holder.layout_main.gravity = Gravity.RIGHT
             }else{ // 상대방 채팅
                 Glide.with(holder.itemView.context)
-                    .load(friend?.profileImageUrl)
+                    .load(user?.profileImageUrl)
                     .apply(RequestOptions().circleCrop())
                     .into(holder.imageView_profile)
-                holder.textView_name.text = friend?.name
+                holder.textView_name.text = user?.name
                 holder.layout_destination.visibility = View.VISIBLE
                 holder.textView_name.visibility = View.VISIBLE
                 holder.textView_message.setBackgroundResource(R.drawable.leftbubble)

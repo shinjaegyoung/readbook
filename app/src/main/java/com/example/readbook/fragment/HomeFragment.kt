@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.readbook.Friend
+import com.example.readbook.model.User
 import com.example.readbook.MessageActivity
 import com.example.readbook.R
 
@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
     }
 
     private lateinit var database: DatabaseReference
-    private var friend : ArrayList<Friend> = arrayListOf()
+    private var user : ArrayList<User> = arrayListOf()
 
     //메모리에 올라갔을 때
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,11 +70,11 @@ class HomeFragment : Fragment() {
                 override fun onCancelled(error: DatabaseError) {
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    friend.clear()
+                    user.clear()
                     for(data in snapshot.children){
-                        val item = data.getValue<Friend>()
+                        val item = data.getValue<User>()
                         if(item?.uid.equals(myUid)) { continue } // 본인은 친구창에서 제외
-                        friend.add(item!!)
+                        user.add(item!!)
                     }
                     notifyDataSetChanged()
                 }
@@ -91,21 +91,21 @@ class HomeFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-            Glide.with(holder.itemView.context).load(friend[position].profileImageUrl)
+            Glide.with(holder.itemView.context).load(user[position].profileImageUrl)
                 .apply(RequestOptions().circleCrop())
                 .into(holder.imageView)
-            holder.textView.text = friend[position].name
-            holder.textViewEmail.text = friend[position].email
+            holder.textView.text = user[position].name
+            holder.textViewEmail.text = user[position].email
 
             holder.itemView.setOnClickListener{
                 val intent = Intent(context, MessageActivity::class.java)
-                intent.putExtra("destinationUid", friend[position].uid)
+                intent.putExtra("destinationUid", user[position].uid)
                 context?.startActivity(intent)
             }
         }
 
         override fun getItemCount(): Int {
-            return friend.size
+            return user.size
         }
     }
 }

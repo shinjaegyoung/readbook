@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.readbook.ChatModel
-import com.example.readbook.Friend
+import com.example.readbook.model.ChatModel
+import com.example.readbook.model.User
 import com.example.readbook.MessageActivity
 import com.example.readbook.R
 
@@ -121,7 +121,7 @@ class ChatFragment : Fragment() {
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        val friend = snapshot.getValue<Friend>()
+                        val friend = snapshot.getValue<User>()
                         Glide.with(holder.itemView.context).load(friend?.profileImageUrl)
                             .apply(RequestOptions().circleCrop())
                             .into(holder.imageView)
