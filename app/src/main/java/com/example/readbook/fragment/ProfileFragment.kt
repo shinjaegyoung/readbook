@@ -19,7 +19,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.readbook.Friend
+import com.example.readbook.model.User
 import com.example.readbook.R
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -96,7 +96,7 @@ class ProfileFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
             }
             override fun onDataChange(snapshot: DataSnapshot) {
-                val userProfile = snapshot.getValue<Friend>()
+                val userProfile = snapshot.getValue<User>()
                 println(userProfile)
                 Glide.with(requireContext()).load(userProfile?.profileImageUrl)
                     .apply(RequestOptions().circleCrop())

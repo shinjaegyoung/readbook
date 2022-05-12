@@ -1,4 +1,4 @@
-package com.example.readbook
+package com.example.readbook.model
 
 import kotlin.collections.HashMap
 
