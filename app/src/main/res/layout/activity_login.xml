@@ -126,12 +126,15 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="18dp"
             android:layout_marginEnd="162dp"
-            android:layout_marginBottom="6dp"
+            android:drawableLeft="@drawable/com_facebook_favicon_blue"
             android:text="Facebook"
+            android:textColor="@color/com_facebook_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/btn_googleSignIn"
-            app:layout_constraintTop_toBottomOf="@+id/btn_registration">
+            app:layout_constraintTop_toBottomOf="@+id/btn_registration"
+            app:layout_constraintVertical_bias="1.0">
 
         </Button>
 
