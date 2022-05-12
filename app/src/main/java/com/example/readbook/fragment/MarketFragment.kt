@@ -64,7 +64,7 @@ class MarketFragment : Fragment() {
 
         binding.btnRegMarket.setOnClickListener {
             val intent=Intent(context, ProductRegActivity::class.java)
-            startActivity(intent)
+            context?.startActivity(intent)
         }
 
         return binding.root

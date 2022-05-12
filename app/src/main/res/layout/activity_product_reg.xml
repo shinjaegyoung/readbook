@@ -1,9 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
     tools:context=".ProductRegActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/btnRegPImg"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/round_box_border"
+            android:clickable="true"
+            android:padding="30dp"
+            android:src="@drawable/ic_camera" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/pImg"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/round_box_border"
+                android:clickable="true"
+                android:padding="30dp" />
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edPName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="제목"
+        android:textColor="#50000000"
+        android:background="@drawable/round_box_border2"
+        android:layout_marginBottom="10dp"
+        android:padding="5dp"/>
+
+    <EditText
+        android:id="@+id/edPrice"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:textColor="#50000000"
+        android:text="가격"
+        android:background="@drawable/round_box_border2"
+        android:layout_marginBottom="10dp"
+        android:padding="5dp"/>
+
+    <EditText
+        android:id="@+id/edDes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:textColor="#50000000"
+        android:text="책의 보관 상태를 작성해주세요"
+        android:background="@drawable/round_box_border2"
+        android:layout_marginBottom="10dp"
+        android:padding="5dp"/>
+</LinearLayout>
