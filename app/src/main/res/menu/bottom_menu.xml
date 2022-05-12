@@ -9,10 +9,13 @@
         android:icon="@drawable/ic_baseline_chat_24"
         android:title="채팅" />
     <item
+        android:id="@+id/menu_market"
+        android:icon="@drawable/ic_baseline_account_box_24"
+        android:title="도서거래" />
+    <item
         android:id="@+id/menu_profile"
         android:icon="@drawable/ic_baseline_account_box_24"
         android:title="프로필" />
 
-//
 </menu>
 

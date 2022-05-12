@@ -5,5 +5,6 @@
         android:id="@+id/marketmenu_search"
         android:icon="@drawable/ic_baseline_chat_24"
         app:showAsAction="always"
+        android:title="title"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 </menu>
