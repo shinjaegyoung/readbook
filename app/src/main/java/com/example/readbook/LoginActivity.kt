@@ -41,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         auth = Firebase.auth
         btn_googleSignIn.setOnClickListener {googlesignIn()}
-        xml_btn_main_facebookLogin.setOnClickListener { facebookLogin() }
+        facebookLoginBtn.setOnClickListener { facebookLogin() }
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             //'R.string.default_web_client_id' 에는 본인의 클라이언트 아이디를 넣어주시면 됩니다.
@@ -79,7 +79,8 @@ class LoginActivity : AppCompatActivity() {
     }
     private fun signIn(email: String, password : String){
         // [start sign_in_with_email
-        val intentMain = Intent(this, MainActivity::class.java)
+        //val intentMain = Intent(this, MainActivity::class.java)
+        val intentMain = Intent(this, ReadListActivity::class.java)
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->

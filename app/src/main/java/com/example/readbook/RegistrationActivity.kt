@@ -81,7 +81,9 @@ class RegistrationActivity : AppCompatActivity() {
                         auth.createUserWithEmailAndPassword(email.toString(), password.toString())
                             .addOnCompleteListener(this) { task ->
                                 if (task.isSuccessful) {
+                                    // 그 코드가 실행이 성공했을때
                                     val user = Firebase.auth.currentUser
+                                    //currentUser = 로그인한 사용자
                                     val userId = user?.uid
                                     val userIdSt = userId.toString()
                                     FirebaseStorage.getInstance()
