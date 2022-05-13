@@ -12,14 +12,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.readbook.MessageActivity
 import com.example.readbook.ProductRegActivity
 import com.example.readbook.R
 import com.example.readbook.databinding.FragmentMarketBinding
-import com.example.readbook.model.Product
 import com.example.readbook.model.ProductList
-import com.example.readbook.model.User
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
