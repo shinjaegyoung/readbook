@@ -1,12 +1,14 @@
 package com.example.readbook
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -112,6 +114,21 @@ class RegistrationActivity : AppCompatActivity() {
                                     startActivity(intent)
                                 } else {
                                     Toast.makeText(this, "등록에 실패했습니다.", Toast.LENGTH_SHORT).show()
+
+                                    fun dialog(view: View) {
+                                        android.app.AlertDialog.Builder(view.context).apply {
+                                            setTitle("회원가입 실패")
+                                            setMessage("중복된 이메일 주소입니다. 다시 한 번 확인해주세요.")
+                                            setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
+                                                Toast.makeText(view.context, "OK Button Click", Toast.LENGTH_SHORT).show()
+                                            })
+                                            setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
+                                                Toast.makeText(view.context, "Cancel Button Click", Toast.LENGTH_SHORT).show()
+                                            })
+                                            show()
+                                        }
+                                    }
+                                    
                                 }
                             }
                     }
