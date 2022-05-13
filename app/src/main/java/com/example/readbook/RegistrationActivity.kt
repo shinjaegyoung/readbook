@@ -41,8 +41,6 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
 
-
-
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_registration)
@@ -119,26 +117,19 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
 
-        public override fun onStart() {
-            super.onStart()
-            val currentUser = auth.currentUser
-            if (currentUser != null) {
-                reload();
-            }
+    public override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            reload();
         }
+    }
 
-        private fun reload() {
+    private fun reload() {
+    }
 
-        }
-
-        companion object {
-            private const val TAG = "EmailPassword"
-        }
-
-
-
-
-
-
-                }
+    companion object {
+        private const val TAG = "EmailPassword"
+    }
+}
 

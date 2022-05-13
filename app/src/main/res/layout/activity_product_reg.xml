@@ -1,95 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginRight="20dp"
+    android:layout_marginLeft="20dp"
+    android:orientation="vertical"
     tools:context=".ProductRegActivity">
 
-    <View
-        android:id="@+id/view_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@android:color/black"
-        android:layout_below="@+id/toolbar"/>
-
-    <androidx.appcompat.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginBottom="50dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_back" />
+
+        <Button
+            android:id="@+id/productRegBtn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="20dp">
-
-            <ImageView
-                android:id="@+id/btnRegPImg"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/round_box_border"
-                android:clickable="true"
-                android:padding="20dp"
-                android:src="@drawable/ic_camera" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recyclerViewPR">
-
-            </androidx.recyclerview.widget.RecyclerView>
-        </LinearLayout>
-
-        <EditText
-            android:id="@+id/edPName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/round_box_border2"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:padding="5dp"
-            android:text="제목"
-            android:textColor="#50000000" />
-
-        <EditText
-            android:id="@+id/edPrice"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/round_box_border2"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:padding="5dp"
-            android:text="가격"
-            android:textColor="#50000000" />
-
-        <EditText
-            android:id="@+id/edDes"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/round_box_border2"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:padding="5dp"
-            android:text="책의 보관 상태를 작성해주세요"
-            android:textColor="#50000000" />
+            android:gravity="right"
+            android:text="작성완료" />
 
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:id="@+id/btnRegPImg"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/round_box_border"
+            android:clickable="true"
+            android:padding="20dp"
+            android:src="@drawable/ic_camera" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerViewPR">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edPName"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_box_border2"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        android:text="제목"
+        android:textColor="#50000000" />
+
+    <EditText
+        android:id="@+id/edPrice"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_box_border2"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:padding="5dp"
+        android:text="가격"
+        android:textColor="#50000000" />
+
+    <EditText
+        android:id="@+id/edDes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_box_border2"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:padding="5dp"
+        android:text="책의 보관 상태를 작성해주세요"
+        android:textColor="#50000000" />
+
+
+</LinearLayout>

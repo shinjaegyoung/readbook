@@ -35,10 +35,13 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.activity_product_reg.*
 import kotlinx.android.synthetic.main.activity_registration.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-private val fireDatabase = FirebaseDatabase.getInstance().reference
+private var auth = Firebase.auth
+private var fireDatabase = FirebaseDatabase.getInstance().reference
 private var productuid : String? = null
-private var destinationUid : String? = null
 private var uid : String? = null
 private var recyclerView : RecyclerView? = null
 
@@ -64,13 +67,7 @@ class ProductRegActivity : AppCompatActivity() {
         binding=ActivityProductRegBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
-        getSupportActionBar()?.setDisplayShowTitleEnabled(false) // 기존 title 지우기
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true) // 뒤로가기 버튼 만들기
-        getSupportActionBar()?.setHomeAsUpIndicator(R.drawable.ic_back) //뒤로가기 버튼 이미지 지정
-
-        auth = Firebase.auth
-        val fireDatabase = FirebaseDatabase.getInstance().reference
+        val fireDatabase = FirebaseDatabase.getInstance()
         database = Firebase.database.reference
 
         ActivityCompat.requestPermissions(
@@ -88,55 +85,58 @@ class ProductRegActivity : AppCompatActivity() {
             pImgCheck = true
         }
         val intent = Intent(this, MarketFragment::class.java)
-        // 툴바 작성완료 버튼 클릭
-        val menu : Menu?
-        val inflater = menuInflater
-        inflater.inflate(R.menu.product_reg_menu, menu)
-        val productReg = menu?.findItem(R.id.toolbar_reg_button)
 
-        productReg.setOnClickListener {
+
+        binding.productRegBtn.setOnClickListener {
+            val product = Product()
+            val newRef = fireDatabase.getReference("products").push()
+            val time = System.currentTimeMillis()
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm")
+            val curTime = dateFormat.format(Date(time)).toString()
+
+            val user = auth.currentUser
+            val userId = user?.uid
+            val userIdSt = userId.toString()
+
+            product.pid = newRef.key.toString()
+            product.pName = binding.edPName.toString()
+            product.pPrice = binding.edPrice
+            product.pDes = binding.edDes.toString()
+            product.pImg
+            product.pViewCount = 0
+            product.status = "판매중"
+            product.user = user?.name.toString()
+            product.regDate = curTime
+
             if (binding.edPName.text.isEmpty() && binding.edPrice.text.isEmpty() && binding.edDes.text.isEmpty()) {
                 Toast.makeText(this, "상품 정보를 빠짐 없이 입력해주세요.", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 database =Firebase.database.reference
-                database.child("productList").push().child(pId)
+                database.child("productList").push().child(pid)
 
                 auth.createUserWithEmailAndPassword(binding.edPName.toString(), binding.edPrice.toString())
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            val user = Firebase.auth.currentUser
-                            val userId = user?.uid
-                            val userIdSt = userId.toString()
                             FirebaseStorage.getInstance()
                                 .reference.child(
-                                    "userImages"
+                                    "productImages"
                                 ).child("$userIdSt/photo").putFile(imageUri!!)
                                 .addOnSuccessListener {
                                     var userProfile: Uri? = null
                                     FirebaseStorage.getInstance().reference.child(
-                                        "userImages"
+                                        "productImages"
                                     )
                                         .child("$userIdSt/photo").downloadUrl.addOnSuccessListener {
                                             userProfile = it
                                             Log.d("이미지 URL", "$userProfile")
                                             val productList = ProductList(
                                                 user,
-                                                Product products = new Product(
-                                                    null,
-                                                    "binding.edPName.toString()",
-                                                    (Int)binding.edPrice.toString(),
-                                                    "binding.edDes.toString()",
-                                                    userIdSt,
-                                                    0,
-                                                    0,
-                                                    now(),
-                                                    pImg,
-                                                    "판매중"
+                                                product
                                                 )
                                             )
-                                            database.child("users").child(userId.toString())
-                                                .setValue(user)
+                                            database.child("productList").child(userId.toString())
+                                                .setValue(productList)
                                         }
                                 }
                             Toast.makeText(this, "회원가입이 완료되었습니다.", Toast.LENGTH_SHORT)
@@ -148,6 +148,21 @@ class ProductRegActivity : AppCompatActivity() {
                     }
             }
         }
+    }
+
+    public override fun onStart() {
+        super.onStart()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            reload();
+        }
+    }
+
+    private fun reload() {
+    }
+
+    companion object {
+        private const val TAG = "EmailPassword"
     }
 
     // 상품 이미지 recyclerViewAdapter
@@ -228,7 +243,7 @@ class ProductRegActivity : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int {
-            return comments.size
+            return 4
         }
     }
 }
