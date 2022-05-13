@@ -19,7 +19,10 @@ import androidx.core.app.ActivityCompat
 import com.example.readbook.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -42,8 +45,6 @@ class RegistrationActivity : AppCompatActivity() {
                 Log.d("이미지", "실패")
             }
         }
-
-
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -70,12 +71,16 @@ class RegistrationActivity : AppCompatActivity() {
                 getContent.launch(intentImage)
                 profileCheck = true
             }
+
             val intent = Intent(this, LoginActivity::class.java)
             button.setOnClickListener {
-                if (email.isEmpty() && password.isEmpty() && name.isEmpty() && profileCheck) {
-                    Toast.makeText(this, "아이디와 비밀번호, 프로필 사진을 제대로 입력해주세요.", Toast.LENGTH_SHORT)
-                        .show()
+                if (email.isEmpty() && password.isNotEmpty() && name.isNotEmpty() && profileCheck) {
+                    Toast.makeText(this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show()
                     Log.d("Email", "$email, $password")
+                } else if(email.isNotEmpty() && password.isEmpty() && name.isNotEmpty() && profileCheck) {
+                    Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                } else if(email.isNotEmpty() && password.isNotEmpty() && name.isEmpty() && profileCheck){
+                    Toast.makeText(this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
                 } else {
                     if (!profileCheck) {
                         Toast.makeText(this, "프로필사진을 등록해주세요.", Toast.LENGTH_SHORT).show()
@@ -114,27 +119,13 @@ class RegistrationActivity : AppCompatActivity() {
                                     startActivity(intent)
                                 } else {
                                     Toast.makeText(this, "등록에 실패했습니다.", Toast.LENGTH_SHORT).show()
-
-                                    fun dialog(view: View) {
-                                        android.app.AlertDialog.Builder(view.context).apply {
-                                            setTitle("회원가입 실패")
-                                            setMessage("중복된 이메일 주소입니다. 다시 한 번 확인해주세요.")
-                                            setPositiveButton("OK", DialogInterface.OnClickListener { dialog, which ->
-                                                Toast.makeText(view.context, "OK Button Click", Toast.LENGTH_SHORT).show()
-                                            })
-                                            setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which ->
-                                                Toast.makeText(view.context, "Cancel Button Click", Toast.LENGTH_SHORT).show()
-                                            })
-                                            show()
-                                        }
-                                    }
-                                    
                                 }
                             }
                     }
                 }
             }
         }
+
 
         public override fun onStart() {
             super.onStart()
@@ -152,10 +143,5 @@ class RegistrationActivity : AppCompatActivity() {
             private const val TAG = "EmailPassword"
         }
 
-
-
-
-
-
-                }
+}
 
