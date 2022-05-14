@@ -1,5 +1,7 @@
 package com.example.readbook.model
 
+import android.net.Uri
+
 data class Product(
     var pid: String? = null,
     var pName: String? = null,
@@ -8,6 +10,6 @@ data class Product(
     var user: String? = null,
     var pViewCount: Int? = 0,
     var regDate: Any = Any(),
-    var pImg: List<String>? = null,
+    var pImg: MutableList<String>? = null,
     var status: String? = null,
 )

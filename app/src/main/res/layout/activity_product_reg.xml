@@ -20,14 +20,18 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:clickable="true"
+            android:padding="10dp"
             app:srcCompat="@drawable/ic_back" />
 
-        <Button
+        <TextView
             android:id="@+id/productRegBtn"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="작성완료" />
+            android:layout_gravity="center_vertical"
+            android:clickable="true"
+            android:text="작성완료"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
@@ -35,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp">
 
         <ImageView
@@ -74,10 +79,10 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/round_box_border2"
         android:ems="10"
-        android:inputType="textPersonName"
         android:padding="5dp"
         android:text="가격"
-        android:textColor="#50000000" />
+        android:textColor="#50000000"
+        android:inputType="number"/>
 
     <EditText
         android:id="@+id/edDes"

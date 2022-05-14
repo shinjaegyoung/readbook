@@ -16,6 +16,7 @@ import com.example.readbook.MessageActivity
 import com.example.readbook.ProductRegActivity
 import com.example.readbook.R
 import com.example.readbook.databinding.FragmentMarketBinding
+import com.example.readbook.model.Product
 import com.example.readbook.model.ProductList
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -104,6 +105,7 @@ class MarketFragment : Fragment() {
         inner class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val imageView: ImageView = itemView.findViewById(R.id.productImg)
             val textView_title: TextView = itemView.findViewById(R.id.tvProductName)
+            val textView_price: TextView = itemView.findViewById(R.id.tvPrice)
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
@@ -128,6 +130,7 @@ class MarketFragment : Fragment() {
                             .override(200,200)
                             .into(holder.imageView)
                         holder.textView_title.text = product?.pName
+                        holder.textView_price.text = product?.pPrice.toString()
                     }
                 })
 
