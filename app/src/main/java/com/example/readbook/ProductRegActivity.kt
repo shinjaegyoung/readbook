@@ -1,7 +1,6 @@
 package com.example.readbook
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.readbook.databinding.ActivityProductRegBinding
 import com.example.readbook.databinding.ItemMarketRegBinding
-import com.example.readbook.fragment.MarketFragment
 import com.example.readbook.model.Product
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -32,7 +30,7 @@ private var auth = Firebase.auth
 class ProductRegActivity : AppCompatActivity() {
     private lateinit var binding:ActivityProductRegBinding
     private val product = Product()
-    private val productImg = product.pImg
+    private val productImg : MutableList<Uri>? = product.pImg
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +46,6 @@ class ProductRegActivity : AppCompatActivity() {
         val curTime = dateFormat.format(Date(time)).toString()
 
         val user = auth.currentUser
-        val userId = user?.uid
-        val userIdSt = userId.toString()
 
         ActivityCompat.requestPermissions(
             this,
@@ -80,9 +76,9 @@ class ProductRegActivity : AppCompatActivity() {
 
         binding.productRegBtn.setOnClickListener {
             product.pid = newRef.key.toString()
-            product.pName = binding.edPName.toString()
-            product.pPrice = binding.edPrice.toString().toInt()
-            product.pDes = binding.edDes.toString()
+            product.pName = binding.edPName.text.toString()
+            product.pPrice = binding.edPrice.text.toString().toInt()
+            product.pDes = binding.edDes.text.toString()
             product.pViewCount = 0
             product.status = "판매중"
             product.user = user?.displayName.toString()
@@ -93,14 +89,16 @@ class ProductRegActivity : AppCompatActivity() {
                     .show()
             } else {
                 FirebaseStorage.getInstance()
-                    .reference.child("productImages").child("${product.pImg}/photo").putFile(imageUri!!)
+                    .reference.child("productImages").child("${product.pid}/photo").putFile(imageUri!!)
                     .addOnSuccessListener {
                         var imageUri: Uri?
+                        // storage에 이미지 저장
                         FirebaseStorage.getInstance().reference.child("productImages")
-                            .child("$userIdSt/photo")
+                            .child("${product.pid}/photo")
                             .downloadUrl.addOnSuccessListener {
                                 imageUri = it
-                                Log.d("이미지 URL", "$imageUri")
+                                Log.d("이미지 URL", "$imageUri, $product")
+                                // productlist 에 데이터 저장
                                 database.child("productlist").child(product.pid.toString())
                                     .setValue(product)
                         }
@@ -108,15 +106,15 @@ class ProductRegActivity : AppCompatActivity() {
                 Toast.makeText(this, "상품이 등록되었습니다.", Toast.LENGTH_SHORT)
                     .show()
 
-                val intent = Intent(this, MarketFragment::class.java)
-                startActivity(intent)
+//                val intent = Intent(this, MarketFragment::class.java)
+//                startActivity(intent)
             }
         }
 
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.recyclerViewPR.layoutManager=layoutManager
-        binding.recyclerViewPR.adapter= productImg?.let { RecyclerViewAdapter(it) }
+        binding.recyclerViewPR.adapter= RecyclerViewAdapter(productImg)
     }
     public override fun onStart() {
         super.onStart()
@@ -129,7 +127,7 @@ class ProductRegActivity : AppCompatActivity() {
     }
 
     // 상품 이미지 recyclerViewAdapter
-    inner class RecyclerViewAdapter(private val productImg:MutableList<Uri>) : RecyclerView.Adapter<RecyclerViewAdapter.ProductImgViewHolder>() {
+    inner class RecyclerViewAdapter(private val productImg:MutableList<Uri>?) : RecyclerView.Adapter<RecyclerViewAdapter.ProductImgViewHolder>() {
 
         inner class ProductImgViewHolder(val binding:ItemMarketRegBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -138,15 +136,24 @@ class ProductRegActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ProductImgViewHolder, position: Int) {
             val binding=(holder).binding
-            binding.itemPImg.setImageURI(productImg[position])
-            binding.itemPImg.setOnClickListener{
-                productImg.remove(productImg[position])
+            if(productImg != null){
+                binding.itemPImg.setImageURI(productImg[position])
+                binding.itemPImg.setOnClickListener {
+                    productImg?.remove(productImg[position])
+                }
             }
+            notifyDataSetChanged()
         }
 
         override fun getItemCount(): Int {
-            Log.d("productReg", "${productImg.size}")
-            return productImg.size
+            Log.d("getItemCount", "${productImg?.size}")
+            var size : Int
+            if(productImg != null){
+                size = productImg.size
+            }else {
+                size = 0
+            }
+            return size
         }
     }
 }
