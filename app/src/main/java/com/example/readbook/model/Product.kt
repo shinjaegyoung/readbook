@@ -10,6 +10,6 @@ data class Product(
     var user: String? = null,
     var pViewCount: Int? = 0,
     var regDate: Any = Any(),
-    var pImg: MutableList<String>? = null,
+    var pImg: MutableList<Uri>? = null,
     var status: String? = null,
 )

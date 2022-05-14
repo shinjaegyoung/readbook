@@ -1,7 +1,7 @@
 package com.example.readbook
 
 import android.Manifest
-import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -9,56 +9,38 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.readbook.databinding.ActivityProductRegBinding
 import com.example.readbook.databinding.ItemMarketRegBinding
 import com.example.readbook.fragment.MarketFragment
-import com.example.readbook.model.ChatModel
 import com.example.readbook.model.Product
-import com.example.readbook.model.ProductList
-import com.example.readbook.model.User
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.activity_message.*
-import kotlinx.android.synthetic.main.activity_product_reg.*
-import kotlinx.android.synthetic.main.activity_registration.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 private var auth = Firebase.auth
-private var fireDatabase = FirebaseDatabase.getInstance().reference
-private var productuid : String? = null
 
 class ProductRegActivity : AppCompatActivity() {
-    lateinit var binding:ActivityProductRegBinding
-    val product = Product()
+    private lateinit var binding:ActivityProductRegBinding
+    private val product = Product()
+    private val productImg = product.pImg
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductRegBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        var fireDatabase = FirebaseDatabase.getInstance()
+        val fireDatabase = FirebaseDatabase.getInstance()
         database = Firebase.database.reference
-        var reference : StorageReference = FirebaseStorage.getInstance().getReference()
 
         val newRef = fireDatabase.getReference("products").push()
         val time = System.currentTimeMillis()
@@ -75,14 +57,13 @@ class ProductRegActivity : AppCompatActivity() {
             1
         )
 
-        var imageUri: Uri? = null
-
         //이미지 등록
+        var imageUri: Uri? = null
         val getContent =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK) {
                     imageUri = result.data?.data //이미지 경로 원본
-                    product.pImg?.add(imageUri.toString())
+                    product.pImg?.add(imageUri!!)
                     ItemMarketRegBinding.inflate(layoutInflater).itemPImg.setImageURI(imageUri) //이미지 뷰를 바꿈
                     Log.d("이미지", "pImg 성공")
                 } else {
@@ -102,7 +83,6 @@ class ProductRegActivity : AppCompatActivity() {
             product.pName = binding.edPName.toString()
             product.pPrice = binding.edPrice.toString().toInt()
             product.pDes = binding.edDes.toString()
-            product.pImg
             product.pViewCount = 0
             product.status = "판매중"
             product.user = user?.displayName.toString()
@@ -115,7 +95,7 @@ class ProductRegActivity : AppCompatActivity() {
                 FirebaseStorage.getInstance()
                     .reference.child("productImages").child("${product.pImg}/photo").putFile(imageUri!!)
                     .addOnSuccessListener {
-                        var imageUri: Uri? = null
+                        var imageUri: Uri?
                         FirebaseStorage.getInstance().reference.child("productImages")
                             .child("$userIdSt/photo")
                             .downloadUrl.addOnSuccessListener {
@@ -136,73 +116,37 @@ class ProductRegActivity : AppCompatActivity() {
         val layoutManager = LinearLayoutManager(this)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.recyclerViewPR.layoutManager=layoutManager
-        binding.recyclerViewPR.adapter=RecyclerViewAdapter(product.pImg)
+        binding.recyclerViewPR.adapter= productImg?.let { RecyclerViewAdapter(it) }
     }
     public override fun onStart() {
         super.onStart()
         val currentUser = auth.currentUser
         if (currentUser != null) {
-            reload();
+            reload()
         }
     }
     private fun reload() {
     }
 
-    companion object {
-        private const val TAG = "EmailPassword"
-    }
-
     // 상품 이미지 recyclerViewAdapter
-    inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.productImgViewHolder>() {
+    inner class RecyclerViewAdapter(private val productImg:MutableList<Uri>) : RecyclerView.Adapter<RecyclerViewAdapter.ProductImgViewHolder>() {
 
-        private val product = ArrayList<Product>()
-        private var user : User? = null
+        inner class ProductImgViewHolder(val binding:ItemMarketRegBinding):RecyclerView.ViewHolder(binding.root)
 
-        init{
-            fireDatabase.child("productList").child("product").child(productuid.toString()).addListenerForSingleValueEvent(object :
-                ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                }
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    user = snapshot.getValue<User>()
-                    messageActivity_textView_topName.text = user?.name
-                    getPImgList()
-                }
-            })
-        }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductImgViewHolder =
+            ProductImgViewHolder(ItemMarketRegBinding.inflate(LayoutInflater.from(parent.context),parent,false))
 
-        fun getPImgList(){
-            fireDatabase.child("productList").child(productuid.toString()).child("comments").addValueEventListener(object :
-                ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                }
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    product.pImg?.clear()
-                    for(data in snapshot.children){
-                        val item = data.getValue<ChatModel.Comment>()
-                        product.pImg?.add(item!!)
-                        println(product.pImg?.toString())
-                    }
-                    notifyDataSetChanged()
-                }
-            })
-        }
-
-        inner class productImgViewHolder(val binding:ItemMarketRegBinding):RecyclerView.ViewHolder(binding.root)
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): productImgViewHolder =
-            productImgViewHolder(ItemMarketRegBinding.inflate(LayoutInflater.from(parent.context),parent,false))
-
-        override fun onBindViewHolder(holder: productImgViewHolder, position: Int) {
-            val binding=(holder as productImgViewHolder).binding
-            binding.itemPImg.setImageURI(product.pImg[position])
+        override fun onBindViewHolder(holder: ProductImgViewHolder, position: Int) {
+            val binding=(holder).binding
+            binding.itemPImg.setImageURI(productImg[position])
             binding.itemPImg.setOnClickListener{
-                product.pImg[position]=null
+                productImg.remove(productImg[position])
             }
         }
 
         override fun getItemCount(): Int {
-            return 4
+            Log.d("productReg", "${productImg.size}")
+            return productImg.size
         }
     }
 }
