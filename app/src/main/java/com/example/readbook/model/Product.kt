@@ -4,7 +4,7 @@ package com.example.readbook.model
 data class Product(
     var pid: String? = null,
     var pName: String? = null,
-    var pPrice: Int? = 0,
+    var pPrice: String? = null,
     var pDes: String? = null,
     var user: String? = null,
     var pViewCount: Int? = 0,

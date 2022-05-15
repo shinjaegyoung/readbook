@@ -57,7 +57,7 @@ class ProductRegActivity : AppCompatActivity() {
         )
 
         product.pName = ""
-        product.pPrice = 0
+        product.pPrice = ""
         product.pDes = ""
         product.regDate = ""
         product.pid = newRef.key.toString()
@@ -75,6 +75,18 @@ class ProductRegActivity : AppCompatActivity() {
                     productImg.pImg = imageUri.toString()
                     //productImg 에 이미지 저장
                     database.child("productlist").child(product.pid.toString()).child("productImg").push().setValue(productImg)
+                    // storage 에 이미지 저장
+                    FirebaseStorage.getInstance()
+                        .reference.child("productImages").child("${product.pid}").putFile(imageUri!!)
+                        .addOnSuccessListener {
+                            var imageUri: Uri?
+                            FirebaseStorage.getInstance().reference.child("productImages")
+                                .child("${product.pid}/photo")
+                                .downloadUrl.addOnSuccessListener {
+                                    imageUri = it
+                                    Log.d("이미지 URL", "$imageUri, $product")
+                                }
+                        }
                     Log.d("이미지", "pImg 성공")
                 } else {
                     Log.d("이미지", "pImg 실패")
@@ -92,7 +104,7 @@ class ProductRegActivity : AppCompatActivity() {
         //작성완료 버튼 클릭
         binding.productRegBtn.setOnClickListener {
             product.pName = binding.edPName.text.toString()
-            product.pPrice = binding.edPrice.text.toString().toInt()
+            product.pPrice = binding.edPrice.text.toString()
             product.pDes = binding.edDes.text.toString()
             product.regDate = curTime
 
@@ -100,27 +112,23 @@ class ProductRegActivity : AppCompatActivity() {
                 Toast.makeText(this, "상품 정보를 빠짐 없이 입력해주세요.", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                // storage 에 이미지 저장
-                FirebaseStorage.getInstance()
-                    .reference.child("productImages").child("${product.pid}/photo").putFile(imageUri!!)
-                    .addOnSuccessListener {
-                        var imageUri: Uri?
-                        FirebaseStorage.getInstance().reference.child("productImages")
-                            .child("${product.pid}/photo")
-                            .downloadUrl.addOnSuccessListener {
-                                imageUri = it
-                                Log.d("이미지 URL", "$imageUri, $product")
-                                // productlist 에 데이터 수정
-                                updateDatas(product.pName!!, product.pPrice!!, product.pDes!!, product.regDate)
-                        }
-                }
+                // productlist 에 데이터 수정
+                updateDatas(product.pName!!, product.pPrice!!, product.pDes!!, product.regDate)
+
                 Toast.makeText(this, "상품이 등록되었습니다.", Toast.LENGTH_SHORT)
                     .show()
 
                 // 목록으로 이동
-//                val intent = Intent(this, MarketFragment::class.java)
-//                startActivity(intent)
+                val intent = Intent(this, MarketFragment::class.java)
+                startActivity(intent)
             }
+        }
+
+        binding.backBtn.setOnClickListener{
+            // 목록으로 이동
+            FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString()).removeValue()
+            val intent = Intent(this, MarketFragment::class.java)
+            startActivity(intent)
         }
 
         val layoutManager = LinearLayoutManager(this@ProductRegActivity)
@@ -129,7 +137,7 @@ class ProductRegActivity : AppCompatActivity() {
         binding.recyclerViewPR.adapter= RecyclerViewAdapter()
     }
 
-    private fun updateDatas(pName: String, pPrice: Int, pDes: String, regDate: Any) {
+    private fun updateDatas(pName: String, pPrice: String, pDes: String, regDate: Any) {
         database = FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString())
         val product = mapOf<String, Any?>(
             "pname" to pName,

@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
     private fun signIn(email: String, password : String){
         // [start sign_in_with_email
         //val intentMain = Intent(this, MainActivity::class.java)
-        val intentMain = Intent(this, ReadListActivity::class.java)
+        val intentMain = Intent(this, MainActivity::class.java)
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
