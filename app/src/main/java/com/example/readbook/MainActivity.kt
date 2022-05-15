@@ -2,8 +2,10 @@ package com.example.readbook
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toolbar
 import com.example.readbook.fragment.ChatFragment
 import com.example.readbook.fragment.HomeFragment
+import com.example.readbook.fragment.MarketFragment
 import com.example.readbook.fragment.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -15,6 +17,7 @@ private lateinit var auth: FirebaseAuth
 
 private lateinit var homeFragment: HomeFragment
 private lateinit var chatFragment: ChatFragment
+private lateinit var marketFragment: MarketFragment
 private lateinit var profileFragment: ProfileFragment
 
 @Suppress("DEPRECATION")
@@ -30,7 +33,8 @@ class MainActivity : AppCompatActivity() {
         homeFragment = HomeFragment.newInstance()
         supportFragmentManager.beginTransaction().add(R.id.fragments_frame, homeFragment).commit()
 
-
+        //setSupportActionBar(findViewById(R.id.marketfragment_toolbar))
+        //getSupportActionBar().setTitle("도서 거래")
 
     }
 
@@ -49,6 +53,13 @@ class MainActivity : AppCompatActivity() {
                             R.id.fragments_frame,
                             chatFragment
                         ).commit()
+                }
+                R.id.menu_market -> {
+                    marketFragment = MarketFragment.newInstance()
+                    supportFragmentManager.beginTransaction ().replace(
+                        R.id.fragments_frame,
+                        marketFragment
+                    ).commit()
                 }
                 R.id.menu_profile -> {
                     profileFragment = ProfileFragment.newInstance()
