@@ -17,7 +17,10 @@ import androidx.core.app.ActivityCompat
 import com.example.readbook.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -66,12 +69,16 @@ class RegistrationActivity : AppCompatActivity() {
                 getContent.launch(intentImage)
                 profileCheck = true
             }
+
             val intent = Intent(this, LoginActivity::class.java)
             button.setOnClickListener {
-                if (email.isEmpty() && password.isEmpty() && name.isEmpty() && profileCheck) {
-                    Toast.makeText(this, "아이디와 비밀번호, 프로필 사진을 제대로 입력해주세요.", Toast.LENGTH_SHORT)
-                        .show()
+                if (email.isEmpty() && password.isNotEmpty() && name.isNotEmpty() && profileCheck) {
+                    Toast.makeText(this, "이메일을 입력해주세요.", Toast.LENGTH_SHORT).show()
                     Log.d("Email", "$email, $password")
+                } else if(email.isNotEmpty() && password.isEmpty() && name.isNotEmpty() && profileCheck) {
+                    Toast.makeText(this, "비밀번호를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                } else if(email.isNotEmpty() && password.isNotEmpty() && name.isEmpty() && profileCheck){
+                    Toast.makeText(this, "이름을 입력해주세요.", Toast.LENGTH_SHORT).show()
                 } else {
                     if (!profileCheck) {
                         Toast.makeText(this, "프로필사진을 등록해주세요.", Toast.LENGTH_SHORT).show()
@@ -117,19 +124,22 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
 
-    public override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            reload();
+
+        public override fun onStart() {
+            super.onStart()
+            val currentUser = auth.currentUser
+            if (currentUser != null) {
+                reload();
+            }
         }
-    }
 
-    private fun reload() {
-    }
+        private fun reload() {
 
-    companion object {
-        private const val TAG = "EmailPassword"
-    }
+        }
+
+        companion object {
+            private const val TAG = "EmailPassword"
+        }
+
 }
 
