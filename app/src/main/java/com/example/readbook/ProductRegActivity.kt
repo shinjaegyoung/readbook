@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.readbook.databinding.ActivityProductRegBinding
 import com.example.readbook.databinding.ItemMarketRegBinding
-import com.example.readbook.fragment.MarketFragment
 import com.example.readbook.model.Product
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -25,6 +24,8 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_readlist.view.*
+import kotlinx.android.synthetic.main.activity_splash.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -57,7 +58,7 @@ class ProductRegActivity : AppCompatActivity() {
         )
 
         product.pName = ""
-        product.pPrice = 0
+        product.pPrice = ""
         product.pDes = ""
         product.regDate = ""
         product.pid = newRef.key.toString()
@@ -87,18 +88,21 @@ class ProductRegActivity : AppCompatActivity() {
                 Intent(Intent.ACTION_PICK)
             intentImage.type = MediaStore.Images.Media.CONTENT_TYPE
             getContent.launch(intentImage)
+
         }
 
         //작성완료 버튼 클릭
         binding.productRegBtn.setOnClickListener {
             product.pName = binding.edPName.text.toString()
-            product.pPrice = binding.edPrice.text.toString().toInt()
+            //product.pPrice = binding.edPrice.text.toString().toInt()
+            product.pPrice = binding.edPrice.text.toString()
             product.pDes = binding.edDes.text.toString()
             product.regDate = curTime
 
-            if (binding.edPName.text.isEmpty() || binding.edPrice.text.isEmpty() || binding.edDes.text.isEmpty()) {
+            if (binding.edPName.text.isEmpty() || binding.edPrice.text.isEmpty() || binding.edDes.text.isEmpty()  ) {
                 Toast.makeText(this, "상품 정보를 빠짐 없이 입력해주세요.", Toast.LENGTH_SHORT)
                     .show()
+
             } else {
                 // storage 에 이미지 저장
                 FirebaseStorage.getInstance()
@@ -129,7 +133,7 @@ class ProductRegActivity : AppCompatActivity() {
         binding.recyclerViewPR.adapter= RecyclerViewAdapter()
     }
 
-    private fun updateDatas(pName: String, pPrice: Int, pDes: String, regDate: Any) {
+    private fun updateDatas(pName: String, pPrice: String, pDes: String, regDate: Any) {
         database = FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString())
         val product = mapOf<String, Any?>(
             "pname" to pName,
