@@ -28,6 +28,8 @@ import com.google.firebase.ktx.Firebase
 import java.util.*
 import kotlin.collections.ArrayList
 
+private val productImg = Product.ProductImg()
+
 class MarketFragment : Fragment() {
     lateinit var binding: FragmentMarketBinding
     companion object {
@@ -126,7 +128,7 @@ class MarketFragment : Fragment() {
                         //                         //
                         val product = snapshot.getValue<Product>()
                         Glide.with(holder.itemView.context)
-                            .load(product?.pImg)
+                            .load(productImg.pImg)
                             .override(200,200)
                             .into(holder.imageView)
                         holder.textView_title.text = product?.pName

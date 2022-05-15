@@ -1,6 +1,5 @@
 package com.example.readbook.model
 
-import android.net.Uri
 
 data class Product(
     var pid: String? = null,
@@ -10,6 +9,7 @@ data class Product(
     var user: String? = null,
     var pViewCount: Int? = 0,
     var regDate: Any = Any(),
-    var pImg: MutableList<Uri>? = null,
     var status: String? = null,
-)
+    val productImg : HashMap<String, ProductImg> = HashMap()){
+    class ProductImg(var pImg: String? = null)
+}
