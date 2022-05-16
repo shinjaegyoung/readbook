@@ -10,6 +10,4 @@ data class Product(
     var pViewCount: Int? = 0,
     var regDate: Any = Any(),
     var status: String? = null,
-    val productImg : HashMap<String, ProductImg> = HashMap()){
-    class ProductImg(var pImg: String? = null)
-}
+){}

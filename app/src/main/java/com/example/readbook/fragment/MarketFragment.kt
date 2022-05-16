@@ -18,11 +18,13 @@ import com.example.readbook.ProductRegActivity
 import com.example.readbook.R
 import com.example.readbook.databinding.FragmentMarketBinding
 import com.example.readbook.model.Product
+import com.example.readbook.model.ProductImg
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.storage.FirebaseStorage
 import kotlin.collections.ArrayList
 
 private val fireDatabase = FirebaseDatabase.getInstance().reference
@@ -64,7 +66,6 @@ class MarketFragment : Fragment() {
 
     inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>() {
 
-        private val productImg = Product.ProductImg()
         private val productlist = ArrayList<Product>()
 
         init {
@@ -108,12 +109,13 @@ class MarketFragment : Fragment() {
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        //                         //
-                        val product = snapshot.getValue<Product>()
-//                        Glide.with(holder.itemView.context)
-//                            .load(productImg.pImg!![0])
-//                            .override(200,200)
-//                            .into(holder.imageView)
+                        Glide.with(holder.itemView.context)
+                            .load(
+                                FirebaseStorage.getInstance().reference.child("productImages")
+                                .child("${productlist[position].pid!!}/0")
+                                .)
+                            .override(200,200)
+                            .into(holder.imageView)
                         holder.textView_title.text = productlist[position].pName.toString()
                         holder.textView_price.text = productlist[position].pPrice.toString()
                     }
