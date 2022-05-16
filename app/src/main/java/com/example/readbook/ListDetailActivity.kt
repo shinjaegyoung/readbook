@@ -26,7 +26,10 @@ class ListDetailActivity : AppCompatActivity() {
         val booktitle = findViewById<EditText>(R.id.booktitle).text
         val bookcontent = findViewById<EditText>(R.id.bookcontent).text
 
-
+        val user = Firebase.auth.currentUser
+        //currentUser = 로그인한 사용자
+        val userId = user?.uid
+        val userIdSt = userId.toString()
        /* var useremailarr = useremail.split(".")
         var useremail1 = ""
 
@@ -41,11 +44,12 @@ class ListDetailActivity : AppCompatActivity() {
             val booknote = BookNote(
                 booktitle.toString(),
                 bookcontent.toString()
+
             )
             //database.child("bookdiary").push()
                // .setValue(booknote)
             //database.get().=setValue(booknote)
-            database.child("bookdiary").child(useremail_plus).setValue(booknote)
+            database.child("bookdiary").child(useremail_plus).push().setValue(booknote)
 
 
 
