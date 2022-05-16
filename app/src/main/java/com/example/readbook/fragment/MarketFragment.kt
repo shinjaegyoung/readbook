@@ -2,6 +2,7 @@ package com.example.readbook.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import com.example.readbook.R
 import com.example.readbook.databinding.FragmentMarketBinding
 import com.example.readbook.model.Product
 import com.example.readbook.model.ProductImg
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -101,7 +103,7 @@ class MarketFragment : Fragment() {
             val textView_price: TextView = itemView.findViewById(R.id.tvPrice)
         }
 
-        override fun onBindViewHolder(holder: CustomViewHolder, position : Int) {
+        override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
 //            // 상품 리스트에서 상품 체크
             fireDatabase.child("productlist").child("${productlist[position].pid!!}")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -109,13 +111,17 @@ class MarketFragment : Fragment() {
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        Glide.with(holder.itemView.context)
-                            .load(
-                                FirebaseStorage.getInstance().reference.child("productImages")
-                                .child("${productlist[position].pid!!}/0")
-                                .)
-                            .override(200,200)
-                            .into(holder.imageView)
+                        FirebaseStorage.getInstance().reference.child("productImages")
+                            .child("${productlist[position].pid!!}/0").downloadUrl
+                            .addOnCompleteListener{ task ->
+                                if(task.isSuccessful){
+                                    Glide.with(holder.itemView.context)
+                                        .load(task.result)
+                                        .override(200,200)
+                                        .centerCrop()
+                                        .into(holder.imageView)
+                                }
+                            }
                         holder.textView_title.text = productlist[position].pName.toString()
                         holder.textView_price.text = productlist[position].pPrice.toString()
                     }

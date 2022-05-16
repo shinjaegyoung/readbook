@@ -43,6 +43,8 @@ class ProductRegActivity : AppCompatActivity() {
         binding = ActivityProductRegBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        productImgs = ArrayList<Uri>()
+
         val fireDatabase = FirebaseDatabase.getInstance()
         database = Firebase.database.reference
 
@@ -78,16 +80,18 @@ class ProductRegActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK) {
                     imageUri = result.data?.data //이미지 경로 원본
-                    productImgs?.add(imageUri!!)
+                    Log.d("이미지 url", "${imageUri}")
                     if(imageUri != null){
                         productImg.pImg = imageUri.toString()
+                        productImgs?.add(imageUri!!)
+                        Log.d("이미지 업로드", "${productImgs?.size}")
                     }else{
                         ItemMarketRegBinding.inflate(layoutInflater).itemPImg.setImageResource(R.drawable.default_img)
                     }
                     //productImg 에 이미지 저장
-                    database.child("productImg").child("${product.pid}").push().setValue(productImg)
+                    database.child("productImg").child("${product.pid}/${productImgs?.size!!-1}").setValue(productImg)
                     // storage 에 이미지 저장
-                    pimgId = fireDatabase.getReference("productImg").child("${product.pid}").push().key.toString()
+                    //pimgId = fireDatabase.getReference("productImg").child("${product.pid}").push().key.toString()
                     FirebaseStorage.getInstance()
                         .reference.child("productImages").child("${product.pid}/${productImgs?.size!!-1}").putFile(imageUri!!)
                         .addOnSuccessListener {
@@ -213,13 +217,13 @@ class ProductRegActivity : AppCompatActivity() {
 
         override fun getItemCount(): Int {
             Log.d("getItemCount", "${productImgs?.size}")
-            var size : Int
-            if(productImg != null){
-                size = productImgs!!.size
-            }else {
-                size = 0
-            }
-            return size
+//            var size : Int
+//            if(productImg != null){
+//                size = productImgs!!.size
+//            }else {
+//                size = 0
+//            }
+            return productImgs?.size?:0
         }
     }
 }
