@@ -24,6 +24,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_product_reg.*
 import kotlinx.android.synthetic.main.activity_readlist.view.*
 import kotlinx.android.synthetic.main.activity_splash.view.*
 import java.text.SimpleDateFormat
