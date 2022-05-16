@@ -72,7 +72,11 @@ class ProductRegActivity : AppCompatActivity() {
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK) {
                     imageUri = result.data?.data //이미지 경로 원본
-                    productImg.pImg = imageUri.toString()
+                    if(imageUri != null){
+                        productImg.pImg = imageUri.toString()
+                    }else{
+                        ItemMarketRegBinding.inflate(layoutInflater).itemPImg.setImageResource(R.drawable.default_img)
+                    }
                     //productImg 에 이미지 저장
                     database.child("productlist").child(product.pid.toString()).child("productImg").push().setValue(productImg)
                     // storage 에 이미지 저장
