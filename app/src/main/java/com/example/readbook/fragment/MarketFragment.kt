@@ -59,6 +59,7 @@ class MarketFragment : Fragment() {
         binding.marketfragmentRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         binding.marketfragmentRecyclerview.adapter = RecyclerViewAdapter()
 
+        // 작성 완료 버튼 클릭 시 페이지 이동
         binding.btnRegMarket.setOnClickListener {
             val intent=Intent(context, ProductRegActivity::class.java)
             context?.startActivity(intent)
@@ -67,7 +68,7 @@ class MarketFragment : Fragment() {
     }
 
     inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>() {
-
+        // 작성한 product db를 담는 ArrayList 생성
         private val productlist = ArrayList<Product>()
 
         init {
@@ -104,13 +105,13 @@ class MarketFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-//            // 상품 리스트에서 상품 체크
             fireDatabase.child("productlist").child("${productlist[position].pid!!}")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
+                        // 첫 번째로 등록한 이미지를 썸네일로 가져오기(Glide)
                         FirebaseStorage.getInstance().reference.child("productImages")
                             .child("${productlist[position].pid!!}/0").downloadUrl
                             .addOnCompleteListener{ task ->
@@ -122,12 +123,13 @@ class MarketFragment : Fragment() {
                                         .into(holder.imageView)
                                 }
                             }
+                        // 상품이름, 가격 item 텍스트뷰에 저장
                         holder.textView_title.text = productlist[position].pName.toString()
                         holder.textView_price.text = productlist[position].pPrice.toString()
                     }
                 })
 
-            //상품 선택 시 이동
+            //상품 선택 시 이동(페이지 구현 예정)
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, ProductDetailActivity::class.java)
 //                intent.putExtra("productlist", productlist[position])

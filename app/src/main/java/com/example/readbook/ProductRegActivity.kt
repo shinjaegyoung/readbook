@@ -33,9 +33,7 @@ private var auth = Firebase.auth
 class ProductRegActivity : AppCompatActivity() {
     private lateinit var binding:ActivityProductRegBinding
     private val product = Product()
-    //private val productImg = Product.ProductImg()
     private val productImg = ProductImg()
-    private var pimgId = ""
     private var productImgs: ArrayList<Uri>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +41,7 @@ class ProductRegActivity : AppCompatActivity() {
         binding = ActivityProductRegBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 업로드 이미지 Uri를 담는 ArrayList 생성
         productImgs = ArrayList<Uri>()
 
         val fireDatabase = FirebaseDatabase.getInstance()
@@ -61,6 +60,7 @@ class ProductRegActivity : AppCompatActivity() {
             1
         )
 
+        // 글 작성시 db에 생성되는 데이터값
         product.pName = ""
         product.pPrice = ""
         product.pDes = ""
@@ -70,28 +70,27 @@ class ProductRegActivity : AppCompatActivity() {
         product.status = "판매중"
         product.user = user?.email.toString()
 
-        //val pimgId = fireDatabase.getReference("productImg").child(product.pid.toString()).push().key.toString()
-
         database.child("productlist").child(product.pid.toString()).setValue(product)
 
-        //이미지 등록
+        //업로드 이미지 Uri
         var imageUri: Uri? = null
+
         val getContent =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK) {
                     imageUri = result.data?.data //이미지 경로 원본
                     Log.d("이미지 url", "${imageUri}")
                     if(imageUri != null){
-                        productImg.pImg = imageUri.toString()
+                        //ArrayList에 이미지 Uri 담기
                         productImgs?.add(imageUri!!)
                         Log.d("이미지 업로드", "${productImgs?.size}")
                     }else{
+                        //이미지 업로드 하지 않았을 때 디폴트 이미지(수정 필요)
                         ItemMarketRegBinding.inflate(layoutInflater).itemPImg.setImageResource(R.drawable.default_img)
                     }
-                    //productImg 에 이미지 저장
+                    //db의 productImg 에 이미지 저장
                     database.child("productImg").child("${product.pid}/${productImgs?.size!!-1}").setValue(productImg)
                     // storage 에 이미지 저장
-                    //pimgId = fireDatabase.getReference("productImg").child("${product.pid}").push().key.toString()
                     FirebaseStorage.getInstance()
                         .reference.child("productImages").child("${product.pid}/${productImgs?.size!!-1}").putFile(imageUri!!)
                         .addOnSuccessListener {
@@ -114,6 +113,7 @@ class ProductRegActivity : AppCompatActivity() {
             val intentImage =
                 Intent(Intent.ACTION_PICK)
             intentImage.type = MediaStore.Images.Media.CONTENT_TYPE
+            //getContent 실행
             getContent.launch(intentImage)
         }
 
@@ -140,20 +140,23 @@ class ProductRegActivity : AppCompatActivity() {
             }
         }
 
+        // 뒤로가기 버튼 클릭
         binding.backBtn.setOnClickListener{
-            // 목록으로 이동
+            // 목록으로 이동, 입력 중인 데이터, 이미지 db 및 스토리지에서 삭제
             FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString()).removeValue()
             FirebaseDatabase.getInstance().getReference("productImg").child(product.pid.toString()).removeValue()
             val intent = Intent(this, MarketFragment::class.java)
             startActivity(intent)
         }
 
+        //RecyclerViewAdapter
         val layoutManager = LinearLayoutManager(this@ProductRegActivity)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.recyclerViewPR.layoutManager=layoutManager
         binding.recyclerViewPR.adapter= RecyclerViewAdapter()
     }
 
+    //입력된 데이터 업데이트
     private fun updateDatas(pName: String, pPrice: String, pDes: String, regDate: Any) {
         database = FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString())
         val product = mapOf<String, Any?>(
@@ -178,32 +181,13 @@ class ProductRegActivity : AppCompatActivity() {
     // 상품 이미지 recyclerViewAdapter
     inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ProductImgViewHolder>() {
 
-//        init{
-//            getPImgList()
-//        }
-
-//        fun getPImgList(){
-//            database.child("productImages").child("${product.pid}").addValueEventListener(object : ValueEventListener{
-//                override fun onCancelled(error: DatabaseError) {
-//                }
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    productImgs.clear()
-//                    for(data in snapshot.children){
-//                        val item = data.getValue<ProductImg>()
-//                        productImgs.add(item!!)
-//                        println(productImgs)
-//                    }
-//                    notifyDataSetChanged()
-//                }
-//            })
-//        }
-
         inner class ProductImgViewHolder(val binding:ItemMarketRegBinding):RecyclerView.ViewHolder(binding.root)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductImgViewHolder =
             ProductImgViewHolder(ItemMarketRegBinding.inflate(LayoutInflater.from(parent.context),parent,false))
 
         override fun onBindViewHolder(holder: ProductImgViewHolder, position: Int) {
+            // 등록한 이미지 미리보기로 출력
             val binding=(holder).binding
             Glide.with(holder.itemView.context)
                 .load(productImgs!![position]?.toString())
@@ -217,12 +201,6 @@ class ProductRegActivity : AppCompatActivity() {
 
         override fun getItemCount(): Int {
             Log.d("getItemCount", "${productImgs?.size}")
-//            var size : Int
-//            if(productImg != null){
-//                size = productImgs!!.size
-//            }else {
-//                size = 0
-//            }
             return productImgs?.size?:0
         }
     }
