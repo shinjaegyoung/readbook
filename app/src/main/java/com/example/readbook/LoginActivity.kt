@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
     private fun signIn(email: String, password : String){
         // [start sign_in_with_email
         //val intentMain = Intent(this, MainActivity::class.java)
-        val intentMain = Intent(this, ReadListActivity::class.java)
+        val intentMain = Intent(this, MainActivity::class.java)
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
@@ -155,7 +155,7 @@ public override fun onStart(){
 
     fun toMainActivity(user: FirebaseUser?) {
         if(user !=null) { // MainActivity 로 이동
-            startActivity(Intent(this, ReadListActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
     }
@@ -185,7 +185,7 @@ public override fun onStart(){
                     // 로그인 성공시 파이어베이스로 로그인 데이터 넘겨줌
                     handleFacebookAccessTokens(result?.accessToken)
 
-                     val intent =Intent(this@LoginActivity, ReadListActivity::class.java)
+                     val intent =Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 }
@@ -211,7 +211,7 @@ public override fun onStart(){
                 task->
                 if(task.isSuccessful){
                     // 아이디 , 비밀번호가 맞을때
-                    startActivity(Intent(this, ReadListActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }else{
                     Toast.makeText(this, task.exception?.message,Toast.LENGTH_SHORT).show()

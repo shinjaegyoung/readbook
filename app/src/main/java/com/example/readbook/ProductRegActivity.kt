@@ -25,6 +25,7 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.item_market.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -34,7 +35,7 @@ class ProductRegActivity : AppCompatActivity() {
     private lateinit var binding:ActivityProductRegBinding
     private val product = Product()
     private val productImg = ProductImg()
-    private var productImgs: ArrayList<Uri>? = null
+    private var productImgs: ArrayList<ProductImg>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +43,7 @@ class ProductRegActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 업로드 이미지 Uri를 담는 ArrayList 생성
-        productImgs = ArrayList<Uri>()
+        productImgs = ArrayList<ProductImg>()
 
         val fireDatabase = FirebaseDatabase.getInstance()
         database = Firebase.database.reference
@@ -68,7 +69,7 @@ class ProductRegActivity : AppCompatActivity() {
         product.pid = newRef.key.toString()
         product.pViewCount = 0
         product.status = "판매중"
-        product.user = user?.email.toString()
+        product.user = user?.uid.toString()
 
         database.child("productlist").child(product.pid.toString()).setValue(product)
 
@@ -78,18 +79,17 @@ class ProductRegActivity : AppCompatActivity() {
         val getContent =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 if (result.resultCode == RESULT_OK) {
-                    imageUri = result.data?.data //이미지 경로 원본
+                    productImg.pImg = result.data?.data.toString() //이미지 경로 원본
                     Log.d("이미지 url", "${imageUri}")
-                    if(imageUri != null){
-                        //ArrayList에 이미지 Uri 담기
-                        productImgs?.add(imageUri!!)
+
+                        productImgs?.add(productImg)
                         Log.d("이미지 업로드", "${productImgs?.size}")
-                    }else{
+
                         //이미지 업로드 하지 않았을 때 디폴트 이미지(수정 필요)
-                        ItemMarketRegBinding.inflate(layoutInflater).itemPImg.setImageResource(R.drawable.default_img)
-                    }
+                        //ItemMarketRegBinding.inflate(layoutInflater).itemPImg.setImageResource(R.drawable.default_img)
+
                     //db의 productImg 에 이미지 저장
-                    database.child("productImg").child("${product.pid}/${productImgs?.size!!-1}").setValue(productImg)
+                    database.child("productImg").child("${product.pid}").setValue(productImgs)
                     // storage 에 이미지 저장
                     FirebaseStorage.getInstance()
                         .reference.child("productImages").child("${product.pid}/${productImgs?.size!!-1}").putFile(imageUri!!)
@@ -145,6 +145,7 @@ class ProductRegActivity : AppCompatActivity() {
             // 목록으로 이동, 입력 중인 데이터, 이미지 db 및 스토리지에서 삭제
             FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString()).removeValue()
             FirebaseDatabase.getInstance().getReference("productImg").child(product.pid.toString()).removeValue()
+            FirebaseStorage.getInstance().reference.child("productImages").child("${product.pid}").delete()
             val intent = Intent(this, MarketFragment::class.java)
             startActivity(intent)
         }
@@ -205,6 +206,3 @@ class ProductRegActivity : AppCompatActivity() {
         }
     }
 }
-
-
-

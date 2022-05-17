@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -59,7 +60,7 @@ class MarketFragment : Fragment() {
         binding.marketfragmentRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         binding.marketfragmentRecyclerview.adapter = RecyclerViewAdapter()
 
-        // 작성 완료 버튼 클릭 시 페이지 이동
+        // 작성 버튼 클릭 시 페이지 이동
         binding.btnRegMarket.setOnClickListener {
             val intent=Intent(context, ProductRegActivity::class.java)
             context?.startActivity(intent)
@@ -132,7 +133,15 @@ class MarketFragment : Fragment() {
             //상품 선택 시 이동(페이지 구현 예정)
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, ProductDetailActivity::class.java)
-//                intent.putExtra("productlist", productlist[position])
+                intent.putExtra("pDes", productlist[position].pDes)
+                intent.putExtra("pName", productlist[position].pName)
+                intent.putExtra("pPrice", productlist[position].pPrice)
+                intent.putExtra("pViewCount", productlist[position].pViewCount)
+                intent.putExtra("pid", productlist[position].pid)
+                intent.putExtra("status", productlist[position].status)
+                intent.putExtra("user", productlist[position].user)
+                intent.putExtra("regdate", productlist[position].regDate.toString())
+                Log.d("lyk","${productlist[position]}")
                 context?.startActivity(intent)
             }
         }
