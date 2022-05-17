@@ -23,7 +23,7 @@ import com.google.firebase.database.ktx.getValue
 import java.util.ArrayList
 
 private val fireDatabase = FirebaseDatabase.getInstance().reference
-private var productImgs: ArrayList<ProductImg>? = null
+private lateinit var productImgs: ArrayList<ProductImg>
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailBinding
@@ -104,7 +104,7 @@ class ProductDetailActivity : AppCompatActivity() {
 
         override fun getItemCount(): Int {
             //Log.d("lyk","${productImgs}")
-            return productImgs?.size?:0
+            return productImgs!!.size?:0
         }
     }
 }
