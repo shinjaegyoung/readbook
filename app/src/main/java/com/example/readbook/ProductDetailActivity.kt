@@ -1,65 +1,73 @@
 package com.example.readbook
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.readbook.databinding.ActivityProductDetailBinding
 import com.example.readbook.databinding.ItemMarketDetailBinding
 import com.example.readbook.fragment.MarketFragment
-import com.example.readbook.model.Product
-import com.google.firebase.auth.ktx.auth
+import com.example.readbook.model.ProductImg
+import com.example.readbook.model.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import java.util.ArrayList
 
 private val fireDatabase = FirebaseDatabase.getInstance().reference
-private var auth = Firebase.auth
+private var productImgs: ArrayList<ProductImg>? = null
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailBinding
-    private var productImgs: ArrayList<Uri>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityProductDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("lyk","${intent.getStringExtra("pName")}")
+        Log.d("lyk","${intent.getStringExtra("pid")}")
 
-        init {
-            fireDatabase.child("users")
-                .addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onCancelled(error: DatabaseError) {
+        fireDatabase.child("users").child("${intent.getStringExtra("user")}")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val user = snapshot.getValue<User>()
+                    Glide.with(binding.profilePD.context).load(user?.profileImageUrl)
+                        .apply(RequestOptions().circleCrop())
+                        .into(binding.profilePD)
+                    binding.usernamePD.text = user?.name
+                }
+            })
+
+        // db에 저장된 이미지 uri 가져오기
+        productImgs = ArrayList<ProductImg>()
+
+        fireDatabase.child("productImg").child("${intent.getStringExtra("pid")}")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Log.d("lyk","fail..............")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    productImgs!!.clear()
+                    Log.d("lyk","${fireDatabase.child("productImg").child("${intent.getStringExtra("pid")}")}")
+                    Log.d("lyk","success..............")
+                    Log.d("lyk", "${snapshot.value}")
+                    for (data in snapshot.children) {
+                        productImgs!!.add(data.getValue<ProductImg>()!!)
+                        println(data)
                     }
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        dataSnapshot.getValue
-                        }
-                        notifyDataSetChanged()
-                    })
-        }
-
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-            }
-        }
-
-        val user = auth.currentUser
-        user?.displayName.toString()
+                }
+            })
 
         binding.tvProductName.text=intent.getStringExtra("pName")
         binding.tvProductPrice.text=intent.getStringExtra("pPrice")
@@ -71,13 +79,6 @@ class ProductDetailActivity : AppCompatActivity() {
             val intent = Intent(this, MarketFragment::class.java)
             startActivity(intent)
         }
-
-        productImgs = ArrayList<Uri>()
-        FirebaseStorage.getInstance().reference.child("productImages")
-            .child("${intent.getStringExtra("pid")}")
-        Log.d("lyk", "${intent.getStringExtra("pid")}")
-        Log.d("lyk","${FirebaseStorage.getInstance().reference.child("productImages").child("${intent.getStringExtra("pid")}")}")
-
 
         //RecyclerViewAdapter
         val layoutManager = LinearLayoutManager(this@ProductDetailActivity)
@@ -94,22 +95,15 @@ class ProductDetailActivity : AppCompatActivity() {
             ProductImgViewHolder(ItemMarketDetailBinding.inflate(LayoutInflater.from(parent.context),parent,false))
 
         override fun onBindViewHolder(holder: ProductImgViewHolder, position: Int) {
-            // storage에 저장된 이미지 가져오기
-            val binding=(holder).binding
-            FirebaseStorage.getInstance().reference.child("productImages")
-                .child("${intent.getStringExtra("pid")}").downloadUrl
-                .addOnCompleteListener{ task ->
-                    if(task.isSuccessful){
-                        Glide.with(holder.itemView.context)
-                            .load(task.result)
-                            .override(200,200)
-                            .centerCrop()
-                            .into(holder.binding.imageViewPD)
-                    }
-                }
-            }
+                Glide.with(holder.itemView.context)
+                    .load(productImgs!![position])
+                    .override(200,200)
+                    .centerCrop()
+                    .into(holder.binding.imageViewPD)
+        }
 
         override fun getItemCount(): Int {
+            //Log.d("lyk","${productImgs}")
             return productImgs?.size?:0
         }
     }

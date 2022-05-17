@@ -54,15 +54,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/tvProductName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_weight="1"
             android:textSize="25sp"
+            android:layout_weight="1"
             android:textStyle="bold"
             android:text="name"/>
 
@@ -73,12 +73,26 @@
             android:text="TextView" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvProductPrice"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:textSize="20sp"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp">
+        <TextView
+            android:id="@+id/tvProductPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="원" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tvProductDes"
         android:layout_width="match_parent"
