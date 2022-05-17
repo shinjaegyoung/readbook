@@ -67,7 +67,7 @@
             android:name=".ReadListActivity"
             android:exported="false" />
         <activity
-            android:name=".ListDetailActivity"
+            android:name=".ListRegisterActivity"
             android:exported="false"/>
     </application>
 
