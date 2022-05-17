@@ -15,25 +15,51 @@ import com.example.readbook.databinding.ActivityProductDetailBinding
 import com.example.readbook.databinding.ItemMarketDetailBinding
 import com.example.readbook.fragment.MarketFragment
 import com.example.readbook.model.Product
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.ArrayList
 
 private val fireDatabase = FirebaseDatabase.getInstance().reference
+private var auth = Firebase.auth
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailBinding
     private var productImgs: ArrayList<Uri>? = null
-    private val pid=intent.getStringExtra("pid")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityProductDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Log.d("lyk","${intent.getStringExtra("pName")}")
+
+        init {
+            fireDatabase.child("users")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        dataSnapshot.getValue
+                        }
+                        notifyDataSetChanged()
+                    })
+        }
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        }
+
+        val user = auth.currentUser
+        user?.displayName.toString()
 
         binding.tvProductName.text=intent.getStringExtra("pName")
         binding.tvProductPrice.text=intent.getStringExtra("pPrice")
@@ -48,9 +74,9 @@ class ProductDetailActivity : AppCompatActivity() {
 
         productImgs = ArrayList<Uri>()
         FirebaseStorage.getInstance().reference.child("productImages")
-            .child("${pid}")
-        Log.d("lyk", "${pid}")
-        Log.d("lyk","${FirebaseStorage.getInstance().reference.child("productImages").child("${pid}")}")
+            .child("${intent.getStringExtra("pid")}")
+        Log.d("lyk", "${intent.getStringExtra("pid")}")
+        Log.d("lyk","${FirebaseStorage.getInstance().reference.child("productImages").child("${intent.getStringExtra("pid")}")}")
 
 
         //RecyclerViewAdapter
@@ -71,7 +97,7 @@ class ProductDetailActivity : AppCompatActivity() {
             // storage에 저장된 이미지 가져오기
             val binding=(holder).binding
             FirebaseStorage.getInstance().reference.child("productImages")
-                .child("${pid}").downloadUrl
+                .child("${intent.getStringExtra("pid")}").downloadUrl
                 .addOnCompleteListener{ task ->
                     if(task.isSuccessful){
                         Glide.with(holder.itemView.context)
