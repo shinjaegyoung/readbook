@@ -68,7 +68,7 @@ class ProductRegActivity : AppCompatActivity() {
         product.pid = newRef.key.toString()
         product.pViewCount = 0
         product.status = "판매중"
-        product.user = user?.email.toString()
+        product.user = user?.uid.toString()
 
         database.child("productlist").child(product.pid.toString()).setValue(product)
 
