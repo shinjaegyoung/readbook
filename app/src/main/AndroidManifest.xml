@@ -52,9 +52,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProductDetailActivity"
-            android:exported="false"/>
-        <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
@@ -68,6 +65,9 @@
             android:exported="false" />
         <activity
             android:name=".ListDetailActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".ProductDetailActivity"
             android:exported="false"/>
     </application>
 

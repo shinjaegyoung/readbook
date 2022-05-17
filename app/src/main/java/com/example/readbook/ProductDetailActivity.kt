@@ -23,7 +23,7 @@ import com.google.firebase.database.ktx.getValue
 import java.util.ArrayList
 
 private val fireDatabase = FirebaseDatabase.getInstance().reference
-private lateinit var productImgs: ArrayList<ProductImg>
+private lateinit var productImgs: ArrayList<String>
 
 class ProductDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductDetailBinding
@@ -32,7 +32,7 @@ class ProductDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding= ActivityProductDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Log.d("lyk","${intent.getStringExtra("pid")}")
+        Log.d("lyk","${intent.getStringExtra("user")}")
 
         fireDatabase.child("users").child("${intent.getStringExtra("user")}")
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -41,6 +41,7 @@ class ProductDetailActivity : AppCompatActivity() {
 
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val user = snapshot.getValue<User>()
+                    Log.d("lyk","${user}")
                     Glide.with(binding.profilePD.context).load(user?.profileImageUrl)
                         .apply(RequestOptions().circleCrop())
                         .into(binding.profilePD)
@@ -49,7 +50,7 @@ class ProductDetailActivity : AppCompatActivity() {
             })
 
         // db에 저장된 이미지 uri 가져오기
-        productImgs = ArrayList<ProductImg>()
+        productImgs = ArrayList<String>()
 
         fireDatabase.child("productImg").child("${intent.getStringExtra("pid")}")
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -63,7 +64,9 @@ class ProductDetailActivity : AppCompatActivity() {
                     Log.d("lyk","success..............")
                     Log.d("lyk", "${snapshot.value}")
                     for (data in snapshot.children) {
-                        productImgs!!.add(data.getValue<ProductImg>()!!)
+                        Log.d("lyk", "${data.getValue<String>()}")
+                        productImgs!!.add(data.getValue<String>()!!)
+                        Log.d("lyk", "${productImgs}")
                         println(data)
                     }
                 }
@@ -95,6 +98,7 @@ class ProductDetailActivity : AppCompatActivity() {
             ProductImgViewHolder(ItemMarketDetailBinding.inflate(LayoutInflater.from(parent.context),parent,false))
 
         override fun onBindViewHolder(holder: ProductImgViewHolder, position: Int) {
+            Log.d("position", "${productImgs[position]}")
                 Glide.with(holder.itemView.context)
                     .load(productImgs!![position])
                     .override(200,200)
@@ -103,7 +107,7 @@ class ProductDetailActivity : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int {
-            //Log.d("lyk","${productImgs}")
+            Log.d("lyk","${productImgs}")
             return productImgs!!.size?:0
         }
     }
