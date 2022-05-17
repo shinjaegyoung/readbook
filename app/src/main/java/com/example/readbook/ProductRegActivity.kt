@@ -33,7 +33,6 @@ private var auth = Firebase.auth
 class ProductRegActivity : AppCompatActivity() {
     private lateinit var binding:ActivityProductRegBinding
     private val product = Product()
-    private val productImg = ProductImg()
     private var productImgs: ArrayList<Uri>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,7 +88,7 @@ class ProductRegActivity : AppCompatActivity() {
                         ItemMarketRegBinding.inflate(layoutInflater).itemPImg.setImageResource(R.drawable.default_img)
                     }
                     //db의 productImg 에 이미지 저장
-                    database.child("productImg").child("${product.pid}/${productImgs?.size!!-1}").setValue(productImg)
+                    database.child("productImg").child("${product.pid}/${productImgs?.size!!-1}").setValue(imageUri.toString())
                     // storage 에 이미지 저장
                     FirebaseStorage.getInstance()
                         .reference.child("productImages").child("${product.pid}/${productImgs?.size!!-1}").putFile(imageUri!!)
@@ -206,6 +205,3 @@ class ProductRegActivity : AppCompatActivity() {
         }
     }
 }
-
-
-

@@ -13,9 +13,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Readbook">
-        <activity
-            android:name=".ProductDetailActivity"
-            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -54,6 +51,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ProductDetailActivity"
+            android:exported="false"/>
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
