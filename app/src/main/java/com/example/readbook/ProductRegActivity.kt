@@ -145,6 +145,7 @@ class ProductRegActivity : AppCompatActivity() {
             // 목록으로 이동, 입력 중인 데이터, 이미지 db 및 스토리지에서 삭제
             FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString()).removeValue()
             FirebaseDatabase.getInstance().getReference("productImg").child(product.pid.toString()).removeValue()
+            FirebaseStorage.getInstance().reference.child("productImages").child("${product.pid}").delete()
             val intent = Intent(this, MarketFragment::class.java)
             startActivity(intent)
         }
