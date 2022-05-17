@@ -46,9 +46,9 @@ class ReadListActivity : AppCompatActivity() {
         val uid = Firebase.auth.currentUser?.uid.toString()
 
         buttonregister.setOnClickListener {
-            val intent = Intent(this, ListRegisterActivity::class.java)
+            val intent = Intent(this, ListDetailActivity::class.java)
             startActivity(intent)
-
+            finish()
         }
 
         val layoutManager = LinearLayoutManager(this@ReadListActivity)

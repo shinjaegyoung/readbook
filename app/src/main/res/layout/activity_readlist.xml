@@ -26,10 +26,11 @@
         android:orientation="horizontal">
 
 
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_booknote"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
@@ -43,8 +44,8 @@
             android:id="@+id/buttonregister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="글쓰기"
+            android:textColor="@color/lasbeOrange"
 
-            android:textColor="@color/lasbeOrange" />
+            android:text="글쓰기" />
     </LinearLayout>
 </LinearLayout>
