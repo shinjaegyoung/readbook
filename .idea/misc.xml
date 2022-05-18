@@ -8,8 +8,10 @@
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/drawable/round_box_border2.xml" value="0.1" />
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/activity_main.xml" value="0.22708333333333333" />
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/activity_message.xml" value="0.365625" />
-        <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/activity_product_detail.xml" value="0.31302083333333336" />
+        <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/activity_product_detail.xml" value="0.1" />
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/activity_product_reg.xml" value="0.25" />
+        <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/activity_product_update.xml" value="0.11296296296296296" />
+        <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/activity_readlist.xml" value="0.303125" />
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/activity_registration.xml" value="0.1537037037037037" />
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/fragment_chat.xml" value="0.3515625" />
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/fragment_market.xml" value="0.33" />
@@ -20,6 +22,7 @@
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/layout/item_message.xml" value="0.36" />
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/menu/bottom_menu.xml" value="0.15185185185185185" />
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/menu/market_menu.xml" value="0.22708333333333333" />
+        <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/menu/product_detail_mevu.xml" value="0.1875" />
         <entry key="..\:/LYK/work/android/android-study/readbook/app/src/main/res/menu/product_reg_menu.xml" value="0.33" />
         <entry key="..\:/LYK/work/android/readbook/app/src/main/res/layout/activity_product_reg.xml" value="0.33" />
         <entry key="..\:/LYK/work/android/readbook/app/src/main/res/layout/fragment_chat.xml" value="0.3619791666666667" />

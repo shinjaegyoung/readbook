@@ -1,6 +1,5 @@
 package com.example.readbook.model
 
-
 data class Product(
     var pid: String? = null,
     var pName: String? = null,

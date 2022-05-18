@@ -132,7 +132,7 @@ class MarketFragment : Fragment() {
 
             //상품 선택 시 이동(페이지 구현 예정)
             holder.itemView.setOnClickListener {
-                val intent = Intent(context, ProductDetailActivity::class.java)
+                val intent = Intent(activity, ProductDetailActivity::class.java)
                 intent.putExtra("pDes", productlist[position].pDes)
                 intent.putExtra("pName", productlist[position].pName)
                 intent.putExtra("pPrice", productlist[position].pPrice)

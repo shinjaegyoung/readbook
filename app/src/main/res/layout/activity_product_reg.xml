@@ -8,36 +8,44 @@
     android:orientation="vertical"
     tools:context=".ProductRegActivity">
 
-
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="60dp">
 
-        <ImageView
-            android:id="@+id/backBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:clickable="true"
-            app:srcCompat="@drawable/ic_back" />
-
-        <TextView
-            android:id="@+id/productRegBtn"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:layout_gravity="center_vertical"
-            android:clickable="true"
-            android:text="작성완료"
-            android:textStyle="bold"/>
+            android:layout_height="match_parent">
 
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/backBtn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:clickable="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:srcCompat="@drawable/ic_back" />
+
+            <TextView
+                android:id="@+id/productRegBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:gravity="right"
+                android:text="작성완료"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp">
 
         <ImageView
@@ -67,7 +75,6 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:padding="5dp"
-        android:hint="제목"
         android:textColor="#50000000" />
 
     <EditText
@@ -78,7 +85,6 @@
         android:background="@drawable/round_box_border2"
         android:ems="10"
         android:padding="5dp"
-        android:hint="가격"
         android:textColor="#50000000"
         android:inputType="number"/>
 
@@ -92,7 +98,6 @@
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:padding="5dp"
-        android:hint="책의 보관 상태를 작성해주세요"
         android:textColor="#50000000" />
 
 
