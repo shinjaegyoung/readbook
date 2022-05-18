@@ -7,13 +7,18 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
+<<<<<<< HEAD
+=======
+import androidx.core.content.ContextCompat
+>>>>>>> da2012ee6d29d1e217b676c76375d99d931522ca
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.readbook.databinding.ActivityReadlistBinding
 import com.example.readbook.model.BookNote
-import com.example.readbook.model.BookNoteitem
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
@@ -22,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_list_detail.*
 import kotlinx.android.synthetic.main.activity_readlist.*
 
 
@@ -46,7 +52,7 @@ class ReadListActivity : AppCompatActivity() {
         val uid = Firebase.auth.currentUser?.uid.toString()
 
         buttonregister.setOnClickListener {
-            val intent = Intent(this, ListDetailActivity::class.java)
+            val intent = Intent(this, Save_deleteActivity::class.java)
             startActivity(intent)
             finish()
         }
@@ -69,13 +75,17 @@ class ReadListActivity : AppCompatActivity() {
     }
 
     inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.BookNoteViewHolder>() {
-
+        val user = Firebase.auth.currentUser
+        //currentUser = 로그인한 사용자
+        val userId = user?.uid
         val spEmail = Firebase.auth.currentUser?.email.toString()
+        val userIdSt = userId.toString()
         val plusEmail = spEmail.replace(".", "+")
 
         val booknotelist = ArrayList<BookNote>()
         init {
             fireDatabase.child("bookdiary").child("${plusEmail}")
+<<<<<<< HEAD
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onCancelled(error: DatabaseError) {
                 }
@@ -93,6 +103,25 @@ class ReadListActivity : AppCompatActivity() {
                     notifyDataSetChanged()
                 }
             })
+=======
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        booknotelist.clear()
+                        Log.d("pgm" , "check....................")
+                        for(data in snapshot.children){
+                            Log.d("pgm" , "${data}")
+                            Log.d("pgm" , "${booknotelist}")
+                            booknotelist.add(data.getValue<BookNote>()!!)
+                            Log.d("pgm" , "${data.value}")
+                            println(data)
+                        }
+                        notifyDataSetChanged()
+                    }
+                })
+>>>>>>> da2012ee6d29d1e217b676c76375d99d931522ca
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookNoteViewHolder {
@@ -107,6 +136,8 @@ class ReadListActivity : AppCompatActivity() {
             val textView_title: TextView = itemView.findViewById(R.id.rc_booktitle)
             val textView_content: TextView = itemView.findViewById(R.id.rc_bookcontent)
 
+
+
         }
 
         override fun onBindViewHolder(holder: BookNoteViewHolder, position:Int) {
@@ -114,6 +145,25 @@ class ReadListActivity : AppCompatActivity() {
             val plusEmail = spEmail.replace(".", "+").toString()*/
             holder.textView_title.text = booknotelist[position].booktitle.toString()
             holder.textView_content.text = booknotelist[position].bookcontent.toString()
+<<<<<<< HEAD
+=======
+
+
+            holder.itemView.setOnClickListener{
+                val intent = Intent(holder.itemView?.context, ListDetailActivity::class.java)
+                intent.putExtra("title", booknotelist[position].booktitle)
+                intent.putExtra("content", booknotelist[position].bookcontent)
+                intent.putExtra("bookid",booknotelist[position].bookid)
+                intent.putExtra("uid",booknotelist[position].uid)
+                Log.d("intent" , "${booknotelist[position].booktitle}")
+                Log.d("intent" , "${booknotelist[position].bookcontent}")
+                Log.d("booknotelist","${booknotelist[position]}")
+
+                ContextCompat.startActivity(holder.itemView.context, intent, null)
+
+            }
+
+>>>>>>> da2012ee6d29d1e217b676c76375d99d931522ca
 
         }
 

@@ -77,24 +77,15 @@
         android:layout_marginRight="10dp"
         android:orientation="vertical">
 
-
         <Button
-            android:id="@+id/bookdetailupdate"
+            android:id="@+id/btnsave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:text="저장"
+            android:layout_gravity="right"
+            android:textColor="@color/lasbeOrange"
+            android:textSize="25dp" />
 
-            android:text="수정"
-            android:textColor="@color/lasbeOrange" />
-
-        <Button
-            android:id="@+id/bookdetaildelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-
-            android:text="삭제"
-            android:textColor="@color/lasbeOrange" />
     </LinearLayout>
 
 </LinearLayout>
