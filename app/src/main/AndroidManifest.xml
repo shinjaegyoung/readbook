@@ -14,16 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Readbook">
         <activity
-<<<<<<< HEAD
             android:name=".ProductUpdateActivity"
-=======
+            android:exported="false"/>
+        <activity
             android:name=".Save_deleteActivity"
             android:exported="false" />
-        <activity
-            android:name=".booksave"
->>>>>>> da2012ee6d29d1e217b676c76375d99d931522ca
-            android:exported="false" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.readbook.fileprovider"
@@ -76,12 +71,9 @@
         <activity
             android:name=".ListDetailActivity"
             android:exported="false" />
-<<<<<<< HEAD
         <activity
             android:name=".ProductDetailActivity"
             android:exported="false" />
-=======
->>>>>>> da2012ee6d29d1e217b676c76375d99d931522ca
     </application>
 
 </manifest>

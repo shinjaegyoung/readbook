@@ -9,10 +9,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
-<<<<<<< HEAD
-=======
 import androidx.core.content.ContextCompat
->>>>>>> da2012ee6d29d1e217b676c76375d99d931522ca
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -85,43 +82,23 @@ class ReadListActivity : AppCompatActivity() {
         val booknotelist = ArrayList<BookNote>()
         init {
             fireDatabase.child("bookdiary").child("${plusEmail}")
-<<<<<<< HEAD
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onCancelled(error: DatabaseError) {
-                }
-
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    booknotelist.clear()
-                    Log.d("pgm" , "check....................")
-                    for(data in snapshot.children){
-                        Log.d("pgm" , "${data}")
-                        Log.d("pgm" , "${booknotelist}")
-                        booknotelist.add(data.getValue<BookNote>()!!)
-                        Log.d("pgm" , "${data.value}")
-                        println(data)
-                    }
-                    notifyDataSetChanged()
-                }
-            })
-=======
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
                         booknotelist.clear()
-                        Log.d("pgm" , "check....................")
-                        for(data in snapshot.children){
-                            Log.d("pgm" , "${data}")
-                            Log.d("pgm" , "${booknotelist}")
+                        Log.d("pgm", "check....................")
+                        for (data in snapshot.children) {
+                            Log.d("pgm", "${data}")
+                            Log.d("pgm", "${booknotelist}")
                             booknotelist.add(data.getValue<BookNote>()!!)
-                            Log.d("pgm" , "${data.value}")
+                            Log.d("pgm", "${data.value}")
                             println(data)
                         }
                         notifyDataSetChanged()
                     }
                 })
->>>>>>> da2012ee6d29d1e217b676c76375d99d931522ca
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookNoteViewHolder {
@@ -135,9 +112,6 @@ class ReadListActivity : AppCompatActivity() {
 
             val textView_title: TextView = itemView.findViewById(R.id.rc_booktitle)
             val textView_content: TextView = itemView.findViewById(R.id.rc_bookcontent)
-
-
-
         }
 
         override fun onBindViewHolder(holder: BookNoteViewHolder, position:Int) {
@@ -145,10 +119,6 @@ class ReadListActivity : AppCompatActivity() {
             val plusEmail = spEmail.replace(".", "+").toString()*/
             holder.textView_title.text = booknotelist[position].booktitle.toString()
             holder.textView_content.text = booknotelist[position].bookcontent.toString()
-<<<<<<< HEAD
-=======
-
-
             holder.itemView.setOnClickListener{
                 val intent = Intent(holder.itemView?.context, ListDetailActivity::class.java)
                 intent.putExtra("title", booknotelist[position].booktitle)
@@ -162,9 +132,6 @@ class ReadListActivity : AppCompatActivity() {
                 ContextCompat.startActivity(holder.itemView.context, intent, null)
 
             }
-
->>>>>>> da2012ee6d29d1e217b676c76375d99d931522ca
-
         }
 
         override fun getItemCount(): Int {

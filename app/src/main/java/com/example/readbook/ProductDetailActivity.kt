@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,6 +63,7 @@ class ProductDetailActivity : AppCompatActivity() {
             FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString()).removeValue()
             FirebaseDatabase.getInstance().getReference("productImg").child(product.pid.toString()).removeValue()
             FirebaseStorage.getInstance().getReference("productImages").child(product.pid.toString()).delete()
+            Toast.makeText(this,"상품이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
