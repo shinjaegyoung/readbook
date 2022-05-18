@@ -36,22 +36,74 @@ class ProductRegActivity : AppCompatActivity() {
     private lateinit var productImg : ProductImg
     private var productImgs: ArrayList<ProductImg>? = null
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.product_reg_menu, menu)
+        if(auth.currentUser?.uid.toString() == intent.getStringExtra("user")){
+            return super.onCreateOptionsMenu(menu)
+        }else{
+            return false
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
+        R.id.toolbar_reg_button -> {
+            val time = System.currentTimeMillis()
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm")
+            val curTime = dateFormat.format(Date(time)).toString()
+
+            product.pName = binding.edPName.text.toString()
+            product.pPrice = binding.edPrice.text.toString()
+            product.pPrice = binding.edPrice.text.toString()
+            product.pDes = binding.edDes.text.toString()
+            product.regDate = curTime
+
+            if (binding.edPName.text.isEmpty() || binding.edPrice.text.isEmpty() || binding.edDes.text.isEmpty() || productImgs!! == null ) {
+                Toast.makeText(this, "상품 정보를 빠짐 없이 입력해주세요.", Toast.LENGTH_SHORT)
+                    .show()
+
+            } else {
+                // productlist 에 데이터 수정
+                updateDatas(product.pName!!, product.pPrice!!, product.pDes!!, product.regDate)
+
+                Toast.makeText(this, "상품이 등록되었습니다.", Toast.LENGTH_SHORT)
+                    .show()
+
+                // 목록으로 이동
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
+            finish()
+            true
+        }
+
+        android.R.id.home -> {
+            // 목록으로 이동, 입력 중인 데이터, 이미지 db 및 스토리지에서 삭제
+            FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString()).removeValue()
+            FirebaseDatabase.getInstance().getReference("productImg").child(product.pid.toString()).removeValue()
+            FirebaseStorage.getInstance().getReference("productImages").child(product.pid.toString()).delete()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductRegBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.topBar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // 업로드 이미지 Uri를 담는 ArrayList 생성
         productImgs = ArrayList<ProductImg>()
 
         val fireDatabase = FirebaseDatabase.getInstance()
         database = Firebase.database.reference
-
         val newRef = fireDatabase.getReference("productlist").push()
-        val time = System.currentTimeMillis()
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm")
-        val curTime = dateFormat.format(Date(time)).toString()
-
         val user = auth.currentUser
 
         ActivityCompat.requestPermissions(
@@ -120,41 +172,6 @@ class ProductRegActivity : AppCompatActivity() {
             //getContent 실행
             getContent.launch(intentImage)
 
-        }
-
-        //작성완료 버튼 클릭
-        binding.productRegBtn.setOnClickListener {
-            product.pName = binding.edPName.text.toString()
-            product.pPrice = binding.edPrice.text.toString()
-            product.pPrice = binding.edPrice.text.toString()
-            product.pDes = binding.edDes.text.toString()
-            product.regDate = curTime
-
-            if (binding.edPName.text.isEmpty() || binding.edPrice.text.isEmpty() || binding.edDes.text.isEmpty()  ) {
-                Toast.makeText(this, "상품 정보를 빠짐 없이 입력해주세요.", Toast.LENGTH_SHORT)
-                    .show()
-
-            } else {
-                // productlist 에 데이터 수정
-                updateDatas(product.pName!!, product.pPrice!!, product.pDes!!, product.regDate)
-
-                Toast.makeText(this, "상품이 등록되었습니다.", Toast.LENGTH_SHORT)
-                    .show()
-
-                // 목록으로 이동
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            }
-        }
-
-        // 뒤로가기 버튼 클릭
-        binding.backBtn.setOnClickListener{
-            // 목록으로 이동, 입력 중인 데이터, 이미지 db 및 스토리지에서 삭제
-            FirebaseDatabase.getInstance().getReference("productlist").child(product.pid.toString()).removeValue()
-            FirebaseDatabase.getInstance().getReference("productImg").child(product.pid.toString()).removeValue()
-            FirebaseStorage.getInstance().getReference("productImages").child(product.pid.toString()).delete()
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
         }
 
         //RecyclerViewAdapter

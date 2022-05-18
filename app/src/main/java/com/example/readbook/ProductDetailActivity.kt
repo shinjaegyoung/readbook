@@ -14,17 +14,19 @@ import com.example.readbook.databinding.ItemMarketDetailBinding
 import com.example.readbook.model.Product
 import com.example.readbook.model.ProductImg
 import com.example.readbook.model.User
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.ArrayList
 
 private val fireDatabase = FirebaseDatabase.getInstance().reference
 private lateinit var productImgs : ArrayList<ProductImg>
-
+private var auth = Firebase.auth
 
 class ProductDetailActivity : AppCompatActivity() {
     private var product = Product()
@@ -33,7 +35,11 @@ class ProductDetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.product_detail_menu, menu)
-        return super.onCreateOptionsMenu(menu)
+        if(auth.currentUser?.uid.toString() == intent.getStringExtra("user")){
+            return super.onCreateOptionsMenu(menu)
+        }else{
+            return false
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
