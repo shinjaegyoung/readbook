@@ -4,19 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#66FAF0D7"
     android:clickable="false">
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/loginback"
-        app:layout_constraintBottom_toTopOf="@id/con2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/con2"
@@ -24,20 +13,22 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView4">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <EditText
             android:id="@+id/et_registration_id"
-            android:layout_width="0dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="32dp"
-            android:drawableLeft="@drawable/drawable_left_image_customise"
+            android:layout_marginTop="100dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/rounded_edittext"
+            android:drawableLeft="@drawable/emailicon"
             android:drawablePadding="10dp"
             android:hint="Email"
             android:inputType="textEmailAddress"
+            android:minHeight="48dp"
             android:paddingLeft="8dp"
             android:textColor="#000000"
             android:textColorHint="#888888"
@@ -51,25 +42,42 @@
             android:id="@+id/registration_iv"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_marginTop="32dp"
-            android:src="@drawable/background1"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rounded_edittext"
+            android:src="@drawable/profile"
             app:layout_constraintBottom_toTopOf="@+id/et_registration_id"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/profileChoose"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Choose Profile Photo"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/et_registration_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/registration_iv"
+            app:layout_constraintVertical_bias="0.194" />
+
         <EditText
             android:id="@+id/et_registration_password"
-            android:layout_width="0dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:drawableLeft="@drawable/left_image_key"
+            android:background="@drawable/rounded_edittext"
+            android:drawableLeft="@drawable/passwordicon"
             android:drawablePadding="10dp"
             android:hint="Password"
             android:inputType="textPassword"
+            android:minHeight="48dp"
             android:paddingLeft="8dp"
             android:textColor="#000000"
             android:textColorHint="#888888"
@@ -81,7 +89,7 @@
 
         <Button
             android:id="@+id/btn_registration"
-            android:layout_width="0dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
@@ -99,15 +107,16 @@
 
         <EditText
             android:id="@+id/et_registration_name"
-            android:layout_width="0dp"
+            android:layout_width="340dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:drawableLeft="@drawable/drawable_left_image_customise"
+            android:background="@drawable/rounded_edittext"
+            android:drawableLeft="@drawable/usericon"
             android:drawablePadding="10dp"
             android:hint="Name"
+            android:minHeight="48dp"
             android:paddingLeft="8dp"
             android:textColor="#000000"
             android:textColorHint="#888888"
@@ -116,6 +125,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_registration_password" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/con2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

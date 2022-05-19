@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:backgroundTint="#FFFF9800"
-        android:text="login with email"/>
+        android:text="Email Login"/>
 
     <Button
         android:id="@+id/google_login"
@@ -43,8 +43,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:backgroundTint="#FFFF9800"
-        android:text="login with google"/>
+        android:drawableLeft="@drawable/logo_google"
+        android:paddingLeft="10dp"
+        app:backgroundTint="#FFFFffff"
+        android:text="Sign in with google"
+        android:gravity="center"
+        android:textColor="#ff999999"/>
 
     <Button
         android:id="@+id/facebook_login"
@@ -56,8 +60,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:backgroundTint="#FFFF9800"
-        android:text="login with facebook"/>
+        android:drawableLeft="@drawable/logo_facebook"
+        android:paddingLeft="10dp"
+        app:backgroundTint="#FF3b5998"
+        android:text="Sign in with facebook"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
