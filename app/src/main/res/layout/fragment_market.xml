@@ -9,17 +9,29 @@
     tools:context=".fragment.MarketFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/marketfragment_toolbar"
-        style="@style/Widget.AppCompat.Toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="60dp"
+        app:title="중고거래"
+        >
+
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/marketSearch"
+            android:layout_gravity="right"
+            app:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
+            app:queryHint="검색할 책의 제목을 입력해주세요"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/marketfragment_recyclerview"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btnReg_market"

@@ -88,12 +88,12 @@ class ReadListActivity : AppCompatActivity() {
 
                     override fun onDataChange(snapshot: DataSnapshot) {
                         booknotelist.clear()
-                        Log.d("pgm" , "check....................")
-                        for(data in snapshot.children){
-                            Log.d("pgm" , "${data}")
-                            Log.d("pgm" , "${booknotelist}")
+                        Log.d("pgm", "check....................")
+                        for (data in snapshot.children) {
+                            Log.d("pgm", "${data}")
+                            Log.d("pgm", "${booknotelist}")
                             booknotelist.add(data.getValue<BookNote>()!!)
-                            Log.d("pgm" , "${data.value}")
+                            Log.d("pgm", "${data.value}")
                             println(data)
                         }
                         notifyDataSetChanged()
@@ -112,9 +112,6 @@ class ReadListActivity : AppCompatActivity() {
 
             val textView_title: TextView = itemView.findViewById(R.id.rc_booktitle)
             val textView_content: TextView = itemView.findViewById(R.id.rc_bookcontent)
-
-
-
         }
 
         override fun onBindViewHolder(holder: BookNoteViewHolder, position:Int) {
@@ -122,8 +119,6 @@ class ReadListActivity : AppCompatActivity() {
             val plusEmail = spEmail.replace(".", "+").toString()*/
             holder.textView_title.text = booknotelist[position].booktitle.toString()
             holder.textView_content.text = booknotelist[position].bookcontent.toString()
-
-
             holder.itemView.setOnClickListener{
                 val intent = Intent(holder.itemView?.context, ListDetailActivity::class.java)
                 intent.putExtra("title", booknotelist[position].booktitle)
@@ -137,8 +132,6 @@ class ReadListActivity : AppCompatActivity() {
                 ContextCompat.startActivity(holder.itemView.context, intent, null)
 
             }
-
-
         }
 
         override fun getItemCount(): Int {

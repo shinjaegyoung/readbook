@@ -2,33 +2,35 @@ package com.example.readbook.fragment
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.readbook.MessageActivity
+import com.example.readbook.ProductDetailActivity
 import com.example.readbook.ProductRegActivity
 import com.example.readbook.R
 import com.example.readbook.databinding.FragmentMarketBinding
 import com.example.readbook.model.Product
-import com.example.readbook.model.ProductList
-import com.google.firebase.auth.ktx.auth
+import com.example.readbook.model.ProductImg
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
-import java.util.*
+import com.google.firebase.storage.FirebaseStorage
 import kotlin.collections.ArrayList
 
-private val productImg = Product.ProductImg()
+private val fireDatabase = FirebaseDatabase.getInstance().reference
 
 class MarketFragment : Fragment() {
     lateinit var binding: FragmentMarketBinding
@@ -37,8 +39,6 @@ class MarketFragment : Fragment() {
             return MarketFragment()
         }
     }
-    private val fireDatabase = FirebaseDatabase.getInstance().reference
-
     // 메모리에 올라감
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,39 +57,34 @@ class MarketFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding=FragmentMarketBinding.inflate(layoutInflater, container, false)
-        //val view = inflater.inflate(R.layout.fragment_market, container, false)
-        //val recyclerView = view.findViewById<RecyclerView>(R.id.marketfragment_recyclerview)
         binding.marketfragmentRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         binding.marketfragmentRecyclerview.adapter = RecyclerViewAdapter()
 
+        // 작성 버튼 클릭 시 페이지 이동
         binding.btnRegMarket.setOnClickListener {
             val intent=Intent(context, ProductRegActivity::class.java)
             context?.startActivity(intent)
         }
-
         return binding.root
     }
 
     inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder>() {
-
-        private val productList = ArrayList<ProductList>()
-        private var uid: String? = null
-        private var pid: String? = null
-        private val destinationUsers: ArrayList<String> = arrayListOf()
+        // 작성한 product db를 담는 ArrayList 생성
+        private val productlist = ArrayList<Product>()
 
         init {
-            uid = Firebase.auth.currentUser?.uid.toString()
-            println(uid)
-
-            fireDatabase.child("product_list").orderByChild("product/$pid").equalTo(true)
+            fireDatabase.child("productlist")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
                     }
-
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        productList.clear()
+                        Log.d("상품리스트","for문 이전................................")
+                        productlist.clear()
                         for (data in snapshot.children) {
-                            productList.add(data.getValue<ProductList>()!!)
+                            Log.d("상품리스트","for문 내부................................")
+                            Log.d("상품리스트","${data.value}")
+                            productlist.add(data.getValue<Product>()!!)
+                            Log.d("상품리스트: productlist","${productlist}")
                             println(data)
                         }
                         notifyDataSetChanged()
@@ -100,7 +95,7 @@ class MarketFragment : Fragment() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
 
             return CustomViewHolder(
-                LayoutInflater.from(context).inflate(R.layout.item_chat, parent, false)
+                LayoutInflater.from(context).inflate(R.layout.item_market, parent, false)
             )
         }
 
@@ -111,41 +106,49 @@ class MarketFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-            var destinationUid: String? = null
-            //상품 리스트에서 상품 체크
-            for (user in productList[position].products.keys) {
-                if (!user.equals(uid)) {
-                    destinationUid = user
-                    destinationUsers.add(destinationUid)
-                }
-            }
-            fireDatabase.child("product").child("$destinationUid")
+            fireDatabase.child("productlist").child("${productlist[position].pid!!}")
                 .addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
                     }
 
                     override fun onDataChange(snapshot: DataSnapshot) {
-                        //                         //
-                        val product = snapshot.getValue<Product>()
-                        Glide.with(holder.itemView.context)
-                            .load(productImg.pImg)
-                            .override(200,200)
-                            .into(holder.imageView)
-                        holder.textView_title.text = product?.pName
-                        holder.textView_price.text = product?.pPrice.toString()
+                        // 첫 번째로 등록한 이미지를 썸네일로 가져오기(Glide)
+                        FirebaseStorage.getInstance().reference.child("productImages")
+                            .child("${productlist[position].pid!!}/0").downloadUrl
+                            .addOnCompleteListener{ task ->
+                                if(task.isSuccessful){
+                                    Glide.with(holder.itemView.context)
+                                        .load(task.result)
+                                        .override(200,200)
+                                        .centerCrop()
+                                        .into(holder.imageView)
+                                }
+                            }
+                        // 상품이름, 가격 item 텍스트뷰에 저장
+                        holder.textView_title.text = productlist[position].pName.toString()
+                        holder.textView_price.text = productlist[position].pPrice.toString()
                     }
                 })
 
-            //상품 선택 시 이동
+            //상품 선택 시 이동(페이지 구현 예정)
             holder.itemView.setOnClickListener {
-                val intent = Intent(context, MessageActivity::class.java)
-                intent.putExtra("destinationUid", destinationUsers[position])
+                val intent = Intent(activity, ProductDetailActivity::class.java)
+                intent.putExtra("pDes", productlist[position].pDes)
+                intent.putExtra("pName", productlist[position].pName)
+                intent.putExtra("pPrice", productlist[position].pPrice)
+                intent.putExtra("pViewCount", productlist[position].pViewCount)
+                intent.putExtra("pid", productlist[position].pid)
+                intent.putExtra("status", productlist[position].status)
+                intent.putExtra("user", productlist[position].user)
+                intent.putExtra("regdate", productlist[position].regDate.toString())
+                Log.d("lyk","${productlist[position]}")
                 context?.startActivity(intent)
             }
         }
 
         override fun getItemCount(): Int {
-            return productList.size
+            Log.d("상품리스트", "${productlist.size}")
+            return productlist.size
         }
     }
 }
