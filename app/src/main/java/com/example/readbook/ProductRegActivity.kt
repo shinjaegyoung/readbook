@@ -38,11 +38,7 @@ class ProductRegActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.product_reg_menu, menu)
-        if(auth.currentUser?.uid.toString() == intent.getStringExtra("user")){
-            return super.onCreateOptionsMenu(menu)
-        }else{
-            return false
-        }
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
@@ -154,8 +150,8 @@ class ProductRegActivity : AppCompatActivity() {
                                     productImg=ProductImg(productimageUri.toString())
                                     productImgs?.add(productImg)
                                     //db의 productImg 에 이미지 저장
-                                    database.child("productImg").child("${product.pid}/${productImgs?.size!!-1}").setValue(productImg)
-                                    Log.d("이미지 업로드", "${product.pid}/${productImgs?.size!!-1}")
+                                    database.child("productImg").child("${product.pid}/${productImgs?.size!!}").setValue(productImg)
+                                    Log.d("이미지 업로드", "${product.pid}/${productImgs?.size!!}")
                                 }
                         }
                     Log.d("이미지", "pImg 성공")

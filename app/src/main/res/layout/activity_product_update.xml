@@ -47,7 +47,6 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:padding="5dp"
-        android:hint="제목"
         android:textColor="#50000000" />
 
     <EditText
@@ -58,7 +57,6 @@
         android:background="@drawable/round_box_border2"
         android:ems="10"
         android:padding="5dp"
-        android:hint="가격"
         android:textColor="#50000000"
         android:inputType="number"/>
 
@@ -72,7 +70,6 @@
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:padding="5dp"
-        android:hint="책의 보관 상태를 작성해주세요"
         android:textColor="#50000000" />
 
 
