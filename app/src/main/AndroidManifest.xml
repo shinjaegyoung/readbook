@@ -16,9 +16,7 @@
         <activity
             android:name=".Save_deleteActivity"
             android:exported="false" />
-        <activity
-            android:name=".booksave"
-            android:exported="false" />
+
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -32,6 +30,34 @@
 
         <activity
             android:name=".ProductRegActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".calendar.CalendarDetailActivity"
+            android:exported="false" />
+        <activity android:name=".calendar.CalendarMainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".piechart02.PiechartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".piechart02.BarChartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".piechart02.PieMainActivity02"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -3,19 +3,18 @@ package com.example.readbook.fragment
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -90,6 +89,7 @@ class ProfileFragment : Fragment() {
         val email = view?.findViewById<TextView>(R.id.profile_textview_email)
         val name = view?.findViewById<TextView>(R.id.profile_textview_name)
         val button = view?.findViewById<Button>(R.id.profile_button)
+        val radioMode = view?.findViewById<RadioGroup>(R.id.radioMode)
 
         //프로필 구현
         fireDatabase.child("users").child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
@@ -116,6 +116,30 @@ class ProfileFragment : Fragment() {
                 fireDatabase.child("users/$uid/name").setValue(name.text.toString())
                 name.clearFocus()
                 Toast.makeText(requireContext(), "이름이 변경되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // --------------------다크모드
+        if (radioMode != null) {
+            radioMode.setOnCheckedChangeListener { _, checkedId ->
+                when (checkedId) {
+                    R.id.rbLight -> {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                        //Light  모드 설정
+                    }
+                    R.id.rbDark -> {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                        //Dark 모드 설정
+
+                    }
+                    R.id.rbDefault -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                        } else {
+                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+                        }
+                    }
+                }
             }
         }
         return view
