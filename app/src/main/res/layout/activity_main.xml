@@ -22,4 +22,3 @@
         android:background="#FFC56F"
         app:menu="@menu/bottom_menu" />
 </RelativeLayout>
-

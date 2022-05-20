@@ -13,10 +13,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 private lateinit var auth: FirebaseAuth
 
 private lateinit var homeFragment: HomeFragment
-private lateinit var groupListFragment:GroupListFragment
 private lateinit var chatFragment: ChatFragment
 private lateinit var marketFragment: MarketFragment
 private lateinit var profileFragment: ProfileFragment
+private lateinit var groupListFragemnt:GroupListFragment
 
 @Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity() {
@@ -37,43 +37,43 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val BottomNavItemSelectedListener =BottomNavigationView.OnNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.menu_home -> {
-                    homeFragment = HomeFragment.newInstance()
-                    supportFragmentManager . beginTransaction ().replace(
-                            R.id.fragments_frame,
-                            homeFragment
-                        ).commit()
-                }
-                R.id.menu_groupList -> {
-                    groupListFragment = GroupListFragment.newInstance()
-                    supportFragmentManager . beginTransaction ().replace(
-                        R.id.fragments_frame,
-                        groupListFragment
-                    ).commit()
-                }
-                R.id.menu_chat -> {
-                    chatFragment = ChatFragment.newInstance()
-                    supportFragmentManager.beginTransaction ().replace(
-                            R.id.fragments_frame,
-                            chatFragment
-                        ).commit()
-                }
-                R.id.menu_market -> {
-                    marketFragment = MarketFragment.newInstance()
-                    supportFragmentManager.beginTransaction ().replace(
-                        R.id.fragments_frame,
-                        marketFragment
-                    ).commit()
-                }
-                R.id.menu_profile -> {
-                    profileFragment = ProfileFragment.newInstance()
-                    supportFragmentManager.beginTransaction ().replace(R.id.fragments_frame, profileFragment)
-                        .commit()
-                }
+        when (it.itemId) {
+            R.id.menu_home -> {
+                homeFragment = HomeFragment.newInstance()
+                supportFragmentManager . beginTransaction ().replace(
+                    R.id.fragments_frame,
+                    homeFragment
+                ).commit()
             }
-        true
+            R.id.menu_groupList -> {
+                groupListFragemnt = GroupListFragment.newInstance()
+                supportFragmentManager.beginTransaction().replace(
+                    R.id.fragments_frame,
+                    groupListFragemnt
+                ).commit()
+            }
+            R.id.menu_chat -> {
+                chatFragment = ChatFragment.newInstance()
+                supportFragmentManager.beginTransaction ().replace(
+                    R.id.fragments_frame,
+                    chatFragment
+                ).commit()
+            }
+            R.id.menu_market -> {
+                marketFragment = MarketFragment.newInstance()
+                supportFragmentManager.beginTransaction ().replace(
+                    R.id.fragments_frame,
+                    marketFragment
+                ).commit()
+            }
+            R.id.menu_profile -> {
+                profileFragment = ProfileFragment.newInstance()
+                supportFragmentManager.beginTransaction ().replace(R.id.fragments_frame, profileFragment)
+                    .commit()
+            }
         }
+        true
+    }
 
 
 }

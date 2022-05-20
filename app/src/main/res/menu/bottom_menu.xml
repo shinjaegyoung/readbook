@@ -12,10 +12,7 @@
         android:id="@+id/menu_chat"
         android:icon="@drawable/chaticon"
         android:title="채팅" />
-    <item
-        android:id="@+id/menu_book"
-        android:icon="@drawable/bookicon"
-        android:title="독서노트" />
+
     <item
         android:id="@+id/menu_market"
         android:icon="@drawable/tradeicon"
