@@ -20,7 +20,56 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+<<<<<<< HEAD
          app:srcCompat="@drawable/background1"/>
+=======
+        app:srcCompat="@drawable/logo2" />
+
+    <Button
+        android:id="@+id/email_login"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:backgroundTint="#FFFF9800"
+        android:text="Email Login"/>
+
+    <Button
+        android:id="@+id/google_login"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:drawableLeft="@drawable/logo_google"
+        android:paddingLeft="10dp"
+        app:backgroundTint="#FFFFffff"
+        android:text="Sign in with google"
+        android:gravity="center"
+        android:textColor="#ff999999"/>
+
+    <Button
+        android:id="@+id/facebook_login"
+        android:layout_width="340dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:drawableLeft="@drawable/logo_facebook"
+        android:paddingLeft="10dp"
+        app:backgroundTint="#FF3b5998"
+        android:text="Sign in with facebook"/>
+>>>>>>> origin/design3
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

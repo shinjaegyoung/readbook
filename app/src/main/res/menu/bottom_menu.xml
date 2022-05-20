@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_home"
-        android:icon="@drawable/ic_baseline_home_24"
+        android:icon="@drawable/homeicon"
         android:title="홈" />
     <item
         android:id="@+id/menu_groupList"
@@ -10,15 +10,19 @@
         android:title="독서모임" />
     <item
         android:id="@+id/menu_chat"
-        android:icon="@drawable/ic_baseline_chat_24"
+        android:icon="@drawable/chaticon"
         android:title="채팅" />
     <item
+        android:id="@+id/menu_book"
+        android:icon="@drawable/bookicon"
+        android:title="독서노트" />
+    <item
         android:id="@+id/menu_market"
-        android:icon="@drawable/ic_baseline_account_box_24"
+        android:icon="@drawable/tradeicon"
         android:title="도서거래" />
     <item
         android:id="@+id/menu_profile"
-        android:icon="@drawable/ic_baseline_account_box_24"
+        android:icon="@drawable/usericon"
         android:title="프로필" />
 
 
