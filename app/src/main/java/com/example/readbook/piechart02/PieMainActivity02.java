@@ -21,19 +21,13 @@ public class PieMainActivity02 extends AppCompatActivity {
 
         btnBarChart = findViewById(R.id.btnBarChart);
         btnPieChart = findViewById(R.id.btnPieChart);
-        btnBarChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent I = new Intent(PieMainActivity02.this, BarChartActivity.class);
-                startActivity(I);
-            }
+        btnBarChart.setOnClickListener(view -> {
+            Intent I = new Intent(PieMainActivity02.this, BarChartActivity.class);
+            startActivity(I);
         });
-        btnPieChart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent I = new Intent(PieMainActivity02.this, PiechartActivity.class);
-                startActivity(I);
-            }
+        btnPieChart.setOnClickListener(view -> {
+            Intent I = new Intent(PieMainActivity02.this, PiechartActivity.class);
+            startActivity(I);
         });
 
 

@@ -32,7 +32,7 @@ public class PiechartActivity extends AppCompatActivity {
         ArrayList user = new ArrayList();
 
         user.add(" ");
-       user.add("10권 목표!");
+        user.add("10권 목표!");
 
         PieData data = new PieData(user, dataSet);
         data.setValueTextSize(20);

@@ -12,14 +12,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.readbook.model.User
 import com.example.readbook.R
+import com.example.readbook.model.User
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +33,10 @@ import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment() {
+
+    lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+    lateinit var intentLauncher: ActivityResultLauncher<Intent>
+
     companion object{
         private var imageUri : Uri? = null
         private val fireStorage = FirebaseStorage.getInstance().reference
@@ -41,7 +47,6 @@ class ProfileFragment : Fragment() {
             return ProfileFragment()
         }
     }
-
     //메모리에 올라갔을 때
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +56,7 @@ class ProfileFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
     }
+
     private val getContent =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if(result.resultCode == AppCompatActivity.RESULT_OK) {
@@ -77,12 +83,13 @@ class ProfileFragment : Fragment() {
     //뷰가 생성되었을 때
     //프레그먼트와 레이아웃을 연결시켜주는 부분
     override fun onCreateView(
-
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        //view 선언을 안하고 return에 바로 적용시키면 glide가 작동을 안함
+    ): View?
+    {
+
+        //vie 선언을 안하고 return에 바로 적용시키면 glide가 작동을 안함
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         val photo = view?.findViewById<ImageView>(R.id.profile_imageview)
 
@@ -91,6 +98,7 @@ class ProfileFragment : Fragment() {
         val button = view?.findViewById<Button>(R.id.profile_button)
         val radioMode = view?.findViewById<RadioGroup>(R.id.radioMode)
 
+        val floatingActionButton = view?.findViewById<FloatingActionButton>(R.id.floatingActionButton)
         //프로필 구현
         fireDatabase.child("users").child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(error: DatabaseError) {
@@ -118,6 +126,12 @@ class ProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), "이름이 변경되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
+
+        floatingActionButton?.setOnClickListener{
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:01012345678"))
+            startActivity(intent)
+        }
+
 
         // --------------------다크모드
         if (radioMode != null) {

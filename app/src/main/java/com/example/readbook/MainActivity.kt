@@ -3,10 +3,7 @@ package com.example.readbook
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toolbar
-import com.example.readbook.fragment.ChatFragment
-import com.example.readbook.fragment.HomeFragment
-import com.example.readbook.fragment.MarketFragment
-import com.example.readbook.fragment.ProfileFragment
+import com.example.readbook.fragment.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -16,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 private lateinit var auth: FirebaseAuth
 
 private lateinit var homeFragment: HomeFragment
+private lateinit var groupListFragment:GroupListFragment
 private lateinit var chatFragment: ChatFragment
 private lateinit var marketFragment: MarketFragment
 private lateinit var profileFragment: ProfileFragment
@@ -46,6 +44,13 @@ class MainActivity : AppCompatActivity() {
                             R.id.fragments_frame,
                             homeFragment
                         ).commit()
+                }
+                R.id.menu_groupList -> {
+                    groupListFragment = GroupListFragment.newInstance()
+                    supportFragmentManager . beginTransaction ().replace(
+                        R.id.fragments_frame,
+                        groupListFragment
+                    ).commit()
                 }
                 R.id.menu_chat -> {
                     chatFragment = ChatFragment.newInstance()
