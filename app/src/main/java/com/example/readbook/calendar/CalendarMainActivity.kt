@@ -29,13 +29,14 @@ import com.google.firebase.ktx.Firebase
 import java.lang.IllegalArgumentException
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 val curYear = SimpleDateFormat("yyyy").format(Date(System.currentTimeMillis())).toString()
 val curMonth = SimpleDateFormat("MM").format(Date(System.currentTimeMillis())).toString()
 val curDate = SimpleDateFormat("dd").format(Date(System.currentTimeMillis())).toString()
 private var auth = Firebase.auth
 val user = auth.currentUser
-
+var test4 : Int = 0
 class CalendarMainActivity : AppCompatActivity() {
 
 
@@ -60,13 +61,13 @@ class CalendarMainActivity : AppCompatActivity() {
                     //Log.d("dayCount", "${snapshot.children}")
                     //Log.d("내부testDC", "success..................")
                     testDC.clear()
-                    Log.d("내부testDC", "$testDC")
+
                     for (data in snapshot.children) {
                         testDC.add(data.getValue<CalendarData>())
                         //println(data)
                     }
                     //notifyDataSetChanged()
-                    Log.d("내부testDC", "$testDC")
+
 
                     val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
                     recyclerView.layoutManager= GridLayoutManager(this@CalendarMainActivity, 7)
@@ -116,10 +117,7 @@ class CalendarMainActivity : AppCompatActivity() {
 
     }
 
-    override fun onStart() {
-        super.onStart()
 
-    }
 
     private fun calendarShow(calendar: Calendar){
         val newCalendar = Calendar.getInstance()
@@ -218,7 +216,6 @@ class CalendarMainActivity : AppCompatActivity() {
 
             for(data in testDC) {
                 if (testDC[position]?.count!! == "1") {
-                    Log.d("forfor", "${testDC[position]?.count!! == "1"}")
 
                     holder.stamp.visibility = View.VISIBLE
                 } else {
@@ -227,31 +224,36 @@ class CalendarMainActivity : AppCompatActivity() {
             }
 
 
+
             holder.itemView.setOnClickListener{
                 Log.d("pgm","${SimpleDateFormat("dd").format(calendar.time)}")
                 // Log.d("kikiki", "${dayCounts}")
 
 
+                if (!holder.stamp.isVisible){
+                    // 1을 저장하는 코드를 넣어주고
+                    holder.stamp.visibility = View.VISIBLE
+                    test4 ++
+                    Log.d("tset4" , "${test4}")
+                    Toast.makeText(
+                        context,
+                        SimpleDateFormat("yyyy-MM-dd 출석 완료!\n오늘도 즐거운 독서 생활 하세요!").format(calendar.time),
+                        Toast.LENGTH_SHORT
+                    ).show() // 클릭을 햇을시 해당 년월일 표시해줌.show()
+
+                    calendardata= CalendarData("1")
+                    addCount.setValue(calendardata)
+
+                }else if(holder.stamp.isVisible){
+                    // 0을 저장하는 코드를 넣어주고
+                    holder.stamp.visibility = View.INVISIBLE
+
+
+                    calendardata= CalendarData("0")
+                    addCount.setValue(calendardata)
+                }
                 if(curDate == holder.textDay.text){
-                    if (!holder.stamp.isVisible){
-                        // 1을 저장하는 코드를 넣어주고
-                        holder.stamp.visibility = View.VISIBLE
-                        Toast.makeText(
-                            context,
-                            SimpleDateFormat("yyyy-MM-dd 출석 완료!\n오늘도 즐거운 독서 생활 하세요!").format(calendar.time),
-                            Toast.LENGTH_SHORT
-                        ).show() // 클릭을 햇을시 해당 년월일 표시해줌.show()
 
-                        calendardata= CalendarData("1")
-                        addCount.setValue(calendardata)
-
-                    }else if(holder.stamp.isVisible){
-                        // 0을 저장하는 코드를 넣어주고
-                        holder.stamp.visibility = View.INVISIBLE
-
-                        calendardata= CalendarData("0")
-                        addCount.setValue(calendardata)
-                    }
                 }else{
                     Toast.makeText(
                         context,
