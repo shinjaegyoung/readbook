@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.book_item.*
 
 private lateinit var auth: FirebaseAuth
 class ListDetailActivity : AppCompatActivity() {
+
     private val BookNote = BookNote()
     val useremail =  Firebase.auth.currentUser?.email.toString()
     var useremail_plus = useremail.replace(".", "+")
@@ -36,9 +37,15 @@ class ListDetailActivity : AppCompatActivity() {
     val userId = user?.uid
     val fireDatabase = FirebaseDatabase.getInstance()
     val new2Ref = fireDatabase.getReference("bookdiray").child(useremail_plus).push()
+<<<<<<< HEAD
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.product_detail_menu, menu)
+=======
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.product_detail_menu, menu)
+
+>>>>>>> 7ba81bf876b505c9790723d8a9137f0b97736024
             return super.onCreateOptionsMenu(menu)
 
     }
@@ -46,6 +53,7 @@ class ListDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
 
         R.id.updateProduct -> {
+<<<<<<< HEAD
             var binding = ActivityListDetailBinding.inflate(layoutInflater)
             var booknote = BookNote(
                 binding.booktitle.text.toString(),
@@ -54,6 +62,40 @@ class ListDetailActivity : AppCompatActivity() {
                 new2Ref.key.toString()
             )
             database.child("bookdiary").child(useremail_plus).child("${intent.getStringExtra("bookid")}").setValue(booknote)
+=======
+            val booktitle = findViewById<EditText>(R.id.booktitle)
+            val bookcontent = findViewById<EditText>(R.id.bookcontent)
+            var binding = ActivityListDetailBinding.inflate(layoutInflater)
+            setContentView(binding.root)
+            BookNote.booktitle = binding.booktitle.text.toString()
+            BookNote.bookcontent = binding.bookcontent.text.toString()
+
+           // database.child("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}").removeValue()
+
+            var booknote = BookNote(
+                booktitle.text.toString(),
+                bookcontent.text.toString(),
+
+
+                userId.toString(),
+                new2Ref.key.toString()
+            )
+
+            var t_hashMap = HashMap<String, Any>()
+            t_hashMap.put("bookcontent", bookcontent.text.toString())
+            t_hashMap.put("booktitle", booktitle.text.toString())
+            t_hashMap.put("bookid", intent.getStringExtra("bookid").toString())
+            t_hashMap.put("uid", user?.uid.toString())
+
+
+
+            //database.child("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}").updateChildren(booknote)
+            database.child("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}").updateChildren(t_hashMap)
+            Log.d("sdfsdfsdf", "${FirebaseDatabase.getInstance().getReference("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}")}")
+
+
+           // database.child("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}").removeValue()
+>>>>>>> 7ba81bf876b505c9790723d8a9137f0b97736024
             val intent = Intent(this, ReadListActivity::class.java)
             startActivity(intent)
             finish()
@@ -62,6 +104,10 @@ class ListDetailActivity : AppCompatActivity() {
         R.id.deleteProduct -> {
             database.child("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}").removeValue()
             Toast.makeText(this,"독서 일기가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+<<<<<<< HEAD
+=======
+            Log.d("cimera","${database.child("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}")}")
+>>>>>>> 7ba81bf876b505c9790723d8a9137f0b97736024
             val intent = Intent(this, ReadListActivity::class.java)
             startActivity(intent)
             finish()
@@ -86,8 +132,13 @@ class ListDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+<<<<<<< HEAD
         binding.booktitle.setText(intent.getStringExtra("content"))
         binding.bookcontent.setText(intent.getStringExtra("title"))
+=======
+        binding.booktitle.setText(intent.getStringExtra("title"))
+        binding.bookcontent.setText(intent.getStringExtra("content"))
+>>>>>>> 7ba81bf876b505c9790723d8a9137f0b97736024
 
         auth = Firebase.auth
         database = Firebase.database.reference

@@ -34,13 +34,17 @@ class Save_deleteActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
+
             true
         }
         R.id.toolbar_readlist_button -> {
-            val binding=ActivitySaveDeleteBinding.inflate(layoutInflater)
+                BookNote.bookid = new2Ref.key.toString()
+            val booktitle = findViewById<EditText>(R.id.booktitle)
+            val bookcontent = findViewById<EditText>(R.id.bookcontent)
+            //val binding=ActivitySaveDeleteBinding.inflate(layoutInflater)
             var booknote = BookNote(
-                binding.booktitle.text.toString(),
-                binding.bookcontent.text.toString(),
+                booktitle.text.toString(),
+                bookcontent.text.toString(),
                 user?.uid,
                 new2Ref.key.toString()
             )

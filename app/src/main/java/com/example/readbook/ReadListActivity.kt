@@ -143,6 +143,7 @@ class ReadListActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: BookNoteViewHolder, position:Int) {
             /*val spEmail = Firebase.auth.currentUser?.email.toString()
             val plusEmail = spEmail.replace(".", "+").toString()*/
+
             holder.textView_title.text = booknotelist[position].booktitle.toString()
             holder.textView_content.text = booknotelist[position].bookcontent.toString()
             holder.itemView.setOnClickListener{
@@ -154,6 +155,8 @@ class ReadListActivity : AppCompatActivity() {
                 Log.d("intent" , "${booknotelist[position].booktitle}")
                 Log.d("intent" , "${booknotelist[position].bookcontent}")
                 Log.d("booknotelist","${booknotelist[position]}")
+                Log.d("bookidtest", "${booknotelist[position].bookid}")
+
 
                 ContextCompat.startActivity(holder.itemView.context, intent, null)
 
