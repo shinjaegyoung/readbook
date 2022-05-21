@@ -53,8 +53,8 @@ class GroupListFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
 
         database = Firebase.database.reference
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        val recyclerView = view.findViewById<RecyclerView>(R.id.home_recycler)
+        val view = inflater.inflate(R.layout.fragment_group_list, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.groupList_recycler)
         //this는 액티비티에서 사용가능, 프래그먼트는 requireContext()로 context 가져오기
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = RecyclerViewAdapter()
@@ -83,7 +83,7 @@ class GroupListFragment : Fragment() {
             })
         }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-            return CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_home, parent, false))
+            return CustomViewHolder(LayoutInflater.from(context).inflate(R.layout.item_goup_list, parent, false))
         }
 
         inner class CustomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

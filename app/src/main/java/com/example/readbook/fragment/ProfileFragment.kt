@@ -7,19 +7,21 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.readbook.R
+import com.example.readbook.ReadListActivity
+import com.example.readbook.Save_deleteActivity
+import com.example.readbook.calendar.CalendarMainActivity
 import com.example.readbook.model.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.ktx.auth
@@ -47,6 +49,13 @@ class ProfileFragment : Fragment() {
             return ProfileFragment()
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+
+
     //메모리에 올라갔을 때
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +97,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View?
     {
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
 
         //vie 선언을 안하고 return에 바로 적용시키면 glide가 작동을 안함
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
@@ -95,8 +105,11 @@ class ProfileFragment : Fragment() {
 
         val email = view?.findViewById<TextView>(R.id.profile_textview_email)
         val name = view?.findViewById<TextView>(R.id.profile_textview_name)
-        val button = view?.findViewById<Button>(R.id.profile_button)
-        val radioMode = view?.findViewById<RadioGroup>(R.id.radioMode)
+        val button = view?.findViewById<TextView>(R.id.profile_button)
+        //val radioMode = view?.findViewById<RadioGroup>(R.id.radioMode)
+        val darkMode = view?.findViewById<SwitchCompat>(R.id.switch_darkmode)
+        val calBtn = view?.findViewById<Button>(R.id.toCalBtn)
+        val diaryBtn = view?.findViewById<Button>(R.id.toDiaryBtn)
 
         val floatingActionButton = view?.findViewById<FloatingActionButton>(R.id.floatingActionButton)
         //프로필 구현
@@ -132,30 +145,51 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
-
-        // --------------------다크모드
-        if (radioMode != null) {
-            radioMode.setOnCheckedChangeListener { _, checkedId ->
-                when (checkedId) {
-                    R.id.rbLight -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                        //Light  모드 설정
-                    }
-                    R.id.rbDark -> {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                        //Dark 모드 설정
-
-                    }
-                    R.id.rbDefault -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                        } else {
-                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-                        }
-                    }
-                }
+        darkMode?.setOnCheckedChangeListener{ _, onSwitch ->
+            if(onSwitch) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                darkMode.isChecked = true
+                    //Dark 모드 설정
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                //Light  모드 설정
             }
         }
+
+        // 캘린더, 다이어리로 이동
+        calBtn?.setOnClickListener {
+            val intent = Intent(context, CalendarMainActivity::class.java)
+            context?.startActivity(intent)
+        }
+
+        diaryBtn?.setOnClickListener {
+            val intent = Intent(context, ReadListActivity::class.java)
+            context?.startActivity(intent)
+        }
+
+        // --------------------다크모드
+//        if (radioMode != null) {
+//            radioMode.setOnCheckedChangeListener { _, checkedId ->
+//                when (checkedId) {
+//                    R.id.rbLight -> {
+//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                        //Light  모드 설정
+//                    }
+//                    R.id.rbDark -> {
+//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//                        //Dark 모드 설정
+//
+//                    }
+//                    R.id.rbDefault -> {
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+//                        } else {
+//                            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+//                        }
+//                    }
+//                }
+//            }
+//        }
         return view
     }
 }

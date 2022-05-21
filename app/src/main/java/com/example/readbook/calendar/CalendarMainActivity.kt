@@ -1,22 +1,21 @@
 package com.example.readbook.calendar
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.view.menu.MenuView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.readbook.MainActivity
 import com.example.readbook.R
 import com.example.readbook.model.CalendarData
 import com.google.firebase.auth.ktx.auth
@@ -30,15 +29,13 @@ import java.lang.IllegalArgumentException
 import java.text.SimpleDateFormat
 import java.util.*
 
-val curYear = SimpleDateFormat("yyyy").format(Date(System.currentTimeMillis())).toString()
-val curMonth = SimpleDateFormat("MM").format(Date(System.currentTimeMillis())).toString()
-val curDate = SimpleDateFormat("dd").format(Date(System.currentTimeMillis())).toString()
+private val curYear = SimpleDateFormat("yyyy").format(Date(System.currentTimeMillis())).toString()
+private val curMonth = SimpleDateFormat("MM").format(Date(System.currentTimeMillis())).toString()
+private val curDate = SimpleDateFormat("dd").format(Date(System.currentTimeMillis())).toString()
 private var auth = Firebase.auth
 val user = auth.currentUser
 
 class CalendarMainActivity : AppCompatActivity() {
-
-
     private lateinit var texMonth: TextView
     private var calendarAdapter:CalendarAdapter= CalendarAdapter(this@CalendarMainActivity)
     private val calendar = Calendar.getInstance()
@@ -46,7 +43,20 @@ class CalendarMainActivity : AppCompatActivity() {
     private var year=calendar.get(Calendar.YEAR)
 
     private var testDC : ArrayList<CalendarData?> = ArrayList<CalendarData?>()
-    private var dayCount :Int = 0
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
+        android.R.id.home -> {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
 
     fun checkStamp() {
 
@@ -67,7 +77,6 @@ class CalendarMainActivity : AppCompatActivity() {
                     }
                     //notifyDataSetChanged()
                     Log.d("내부testDC", "$testDC")
-
                     val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
                     recyclerView.layoutManager= GridLayoutManager(this@CalendarMainActivity, 7)
                     //GridLayoutManager 달력이기 때문에 바둑판형식으로 해줌
@@ -83,6 +92,10 @@ class CalendarMainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar_main)
+
+        setSupportActionBar(findViewById(R.id.topBar))
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         texMonth = findViewById(R.id.text_month)
 
@@ -215,11 +228,9 @@ class CalendarMainActivity : AppCompatActivity() {
 
             //Log.d("dayCounts", "$dayCounts")
             Log.d("testDC", "$testDC")
-
             for(data in testDC) {
                 if (testDC[position]?.count!! == "1") {
-                    Log.d("forfor", "${testDC[position]?.count!! == "1"}")
-
+                    Log.d("forfor", "success...................")
                     holder.stamp.visibility = View.VISIBLE
                 } else {
                     holder.stamp.visibility = View.INVISIBLE
