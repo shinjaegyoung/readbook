@@ -37,32 +37,15 @@ class ListDetailActivity : AppCompatActivity() {
     val userId = user?.uid
     val fireDatabase = FirebaseDatabase.getInstance()
     val new2Ref = fireDatabase.getReference("bookdiray").child(useremail_plus).push()
-<<<<<<< HEAD
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.product_detail_menu, menu)
-=======
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.product_detail_menu, menu)
-
->>>>>>> 7ba81bf876b505c9790723d8a9137f0b97736024
             return super.onCreateOptionsMenu(menu)
-
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
 
         R.id.updateProduct -> {
-<<<<<<< HEAD
-            var binding = ActivityListDetailBinding.inflate(layoutInflater)
-            var booknote = BookNote(
-                binding.booktitle.text.toString(),
-                binding.bookcontent.text.toString(),
-                user?.uid.toString(),
-                new2Ref.key.toString()
-            )
-            database.child("bookdiary").child(useremail_plus).child("${intent.getStringExtra("bookid")}").setValue(booknote)
-=======
             val booktitle = findViewById<EditText>(R.id.booktitle)
             val bookcontent = findViewById<EditText>(R.id.bookcontent)
             var binding = ActivityListDetailBinding.inflate(layoutInflater)
@@ -95,7 +78,7 @@ class ListDetailActivity : AppCompatActivity() {
 
 
            // database.child("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}").removeValue()
->>>>>>> 7ba81bf876b505c9790723d8a9137f0b97736024
+
             val intent = Intent(this, ReadListActivity::class.java)
             startActivity(intent)
             finish()
@@ -104,10 +87,9 @@ class ListDetailActivity : AppCompatActivity() {
         R.id.deleteProduct -> {
             database.child("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}").removeValue()
             Toast.makeText(this,"독서 일기가 삭제되었습니다.", Toast.LENGTH_SHORT).show()
-<<<<<<< HEAD
-=======
+
             Log.d("cimera","${database.child("bookdiary").child("${useremail_plus}").child("${intent.getStringExtra("bookid")}")}")
->>>>>>> 7ba81bf876b505c9790723d8a9137f0b97736024
+
             val intent = Intent(this, ReadListActivity::class.java)
             startActivity(intent)
             finish()
@@ -132,13 +114,8 @@ class ListDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-<<<<<<< HEAD
-        binding.booktitle.setText(intent.getStringExtra("content"))
-        binding.bookcontent.setText(intent.getStringExtra("title"))
-=======
         binding.booktitle.setText(intent.getStringExtra("title"))
         binding.bookcontent.setText(intent.getStringExtra("content"))
->>>>>>> 7ba81bf876b505c9790723d8a9137f0b97736024
 
         auth = Firebase.auth
         database = Firebase.database.reference
