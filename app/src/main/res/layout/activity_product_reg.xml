@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     android:orientation="vertical"
     tools:context=".ProductRegActivity">
 
@@ -18,7 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
 
         <ImageView
             android:id="@+id/btnRegPImg"
@@ -43,6 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/round_box_border2"
         android:ems="10"
         android:inputType="textPersonName"
@@ -55,6 +58,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/round_box_border2"
         android:ems="10"
         android:padding="5dp"
@@ -67,6 +72,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/round_box_border2"
         android:ems="10"
         android:gravity="start|top"

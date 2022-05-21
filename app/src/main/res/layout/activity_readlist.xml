@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:clickable="true"
@@ -9,30 +9,31 @@
     android:orientation="vertical"
     tools:context=".ReadListActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+    </androidx.appcompat.widget.Toolbar>
+
     <LinearLayout
+        android:id="@+id/imagesLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@id/topBar">
 
         <ImageButton
             android:id="@+id/imageButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/loginback" />
-
-        <Button
-            android:id="@+id/buttonregister"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="글쓰기"
-            android:layout_gravity="end"
-            android:textColor="@color/lasbeOrange" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@id/imagesLayout">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_booknote"
@@ -42,4 +43,4 @@
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

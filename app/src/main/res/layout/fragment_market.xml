@@ -11,19 +11,22 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:title="중고거래"
-        >
+        android:background="@color/color_dark_ffffff_000000"
+        android:fontFamily="cursive"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:title="중고거래">
 
         <androidx.appcompat.widget.SearchView
+            android:id="@+id/marketSearch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/marketSearch"
             android:layout_gravity="right"
             app:closeIcon="@android:drawable/ic_menu_close_clear_cancel"
-            app:queryHint="검색할 책의 제목을 입력해주세요"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:queryHint="검색할 책의 제목을 입력해주세요" />
 
     </androidx.appcompat.widget.Toolbar>
 

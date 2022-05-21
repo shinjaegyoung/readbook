@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
@@ -34,12 +36,36 @@ class ReadListActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private var recyclerView: RecyclerView? = null
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.readlist_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
+        android.R.id.home -> {
+            val intent = Intent(this, ReadListActivity::class.java)
+            startActivity(intent)
+            finish()
+            true
+        }
+        R.id.toolbar_readlist_button -> {
+            val intent = Intent(this, Save_deleteActivity::class.java)
+            startActivity(intent)
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReadlistBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(findViewById(R.id.topBar))
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         auth = Firebase.auth
         val spEmail = Firebase.auth.currentUser?.email.toString()
@@ -48,11 +74,11 @@ class ReadListActivity : AppCompatActivity() {
 
         val uid = Firebase.auth.currentUser?.uid.toString()
 
-        buttonregister.setOnClickListener {
-            val intent = Intent(this, Save_deleteActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+//        buttonregister.setOnClickListener {
+//            val intent = Intent(this, Save_deleteActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
 
         val layoutManager = LinearLayoutManager(this@ReadListActivity)
         binding.rvBooknote.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
@@ -117,6 +143,7 @@ class ReadListActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: BookNoteViewHolder, position:Int) {
             /*val spEmail = Firebase.auth.currentUser?.email.toString()
             val plusEmail = spEmail.replace(".", "+").toString()*/
+
             holder.textView_title.text = booknotelist[position].booktitle.toString()
             holder.textView_content.text = booknotelist[position].bookcontent.toString()
             holder.itemView.setOnClickListener{
@@ -128,6 +155,8 @@ class ReadListActivity : AppCompatActivity() {
                 Log.d("intent" , "${booknotelist[position].booktitle}")
                 Log.d("intent" , "${booknotelist[position].bookcontent}")
                 Log.d("booknotelist","${booknotelist[position]}")
+                Log.d("bookidtest", "${booknotelist[position].bookid}")
+
 
                 ContextCompat.startActivity(holder.itemView.context, intent, null)
 

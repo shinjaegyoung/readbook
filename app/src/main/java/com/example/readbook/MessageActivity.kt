@@ -1,13 +1,11 @@
 package com.example.readbook
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -36,10 +34,29 @@ class MessageActivity : AppCompatActivity() {
     private var uid : String? = null
     private var recyclerView : RecyclerView? = null
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
+        android.R.id.home -> {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     @SuppressLint("SimpleDateFormat")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
+
+        setSupportActionBar(findViewById(R.id.topBar))
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val imageView = findViewById<ImageView>(R.id.messageActivity_ImageView)
         val editText = findViewById<TextView>(R.id.messageActivity_editText)
 
@@ -111,7 +128,7 @@ class MessageActivity : AppCompatActivity() {
                 }
                 override fun onDataChange(snapshot: DataSnapshot) {
                     user = snapshot.getValue<User>()
-                    messageActivity_textView_topName.text = user?.name
+                    chatName.text = user?.name
                     getMessageList()
                 }
             })
