@@ -18,12 +18,11 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.readbook.R
-import com.example.readbook.ReadListActivity
-import com.example.readbook.Save_deleteActivity
+import com.example.readbook.*
 import com.example.readbook.calendar.CalendarMainActivity
 import com.example.readbook.model.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -33,6 +32,7 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_profile.*
+import kotlinx.android.synthetic.main.fragment_profile.view.*
 
 class ProfileFragment : Fragment() {
 
@@ -45,6 +45,8 @@ class ProfileFragment : Fragment() {
         private val fireDatabase = FirebaseDatabase.getInstance().reference
         private val user = Firebase.auth.currentUser
         private val uid = user?.uid.toString()
+        private var auth = Firebase.auth
+
         fun newInstance() : ProfileFragment {
             return ProfileFragment()
         }
@@ -64,6 +66,7 @@ class ProfileFragment : Fragment() {
     //프레그먼트를 포함하고 있는 액티비티에 붙었을 때
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
     }
 
     private val getContent =
@@ -126,6 +129,17 @@ class ProfileFragment : Fragment() {
                 name?.text = userProfile?.name
             }
         })
+
+        view.signoutBtn.setOnClickListener {
+            //firebase auth에서 sign out 기능 호출
+            Log.d("test1" , "${auth.currentUser.toString()}")
+            if(auth.currentUser != null){
+                Firebase.auth.signOut()
+            }
+            var intent=Intent(context, SplashActivity::class.java) //로그인 페이지 이동
+            startActivity(intent!!)
+            activity?.finish()
+        }
         //프로필사진 바꾸기
         photo?.setOnClickListener{
             val intentImage = Intent(Intent.ACTION_PICK)
@@ -167,6 +181,8 @@ class ProfileFragment : Fragment() {
             context?.startActivity(intent)
         }
 
+
+
         // --------------------다크모드
 //        if (radioMode != null) {
 //            radioMode.setOnCheckedChangeListener { _, checkedId ->
@@ -192,4 +208,7 @@ class ProfileFragment : Fragment() {
 //        }
         return view
     }
+
+
+
 }
