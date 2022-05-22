@@ -3,9 +3,9 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="facebook_app_id">4856265847815325</string>
+    <string name="facebook_app_id">550885976562238</string>
     <string name="fb_login_protocol_scheme"></string>
-    <string name="facebook_client_token">a1c61f2f4cc0d3876c19c0ef8c8b0b33</string>
+    <string name="facebook_client_token">20ec62bbe21050bf5b05ea88c91dd553</string>
 
 
 </resources>
