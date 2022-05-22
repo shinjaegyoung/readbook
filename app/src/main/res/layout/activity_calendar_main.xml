@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#66FAF0D7"
     tools:context=".MainActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -39,6 +40,7 @@
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:fontFamily="@font/fontstyle"
             app:layout_constraintStart_toEndOf="@id/btn_left"
             app:layout_constraintEnd_toStartOf="@id/btn_right"
             />
@@ -70,6 +72,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="일"
+            android:fontFamily="@font/fontstyle"
             android:textColor="@android:color/holo_red_dark"
             app:layout_constraintEnd_toStartOf="@id/text_1"
             app:layout_constraintStart_toStartOf="parent"
@@ -81,6 +84,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="월"
+            android:fontFamily="@font/fontstyle"
             app:layout_constraintEnd_toStartOf="@id/text_2"
             app:layout_constraintStart_toEndOf="@id/text_0"
             app:layout_constraintTop_toTopOf="parent" />
@@ -91,6 +95,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="화"
+            android:fontFamily="@font/fontstyle"
             app:layout_constraintEnd_toStartOf="@id/text_3"
             app:layout_constraintStart_toEndOf="@id/text_1"
             app:layout_constraintTop_toTopOf="parent" />
@@ -101,6 +106,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="수"
+            android:fontFamily="@font/fontstyle"
             app:layout_constraintEnd_toStartOf="@id/text_4"
             app:layout_constraintStart_toEndOf="@id/text_2"
             app:layout_constraintTop_toTopOf="parent" />
@@ -111,6 +117,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="목"
+            android:fontFamily="@font/fontstyle"
             app:layout_constraintEnd_toStartOf="@id/text_5"
             app:layout_constraintStart_toEndOf="@id/text_3"
             app:layout_constraintTop_toTopOf="parent" />
@@ -121,6 +128,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="금"
+            android:fontFamily="@font/fontstyle"
             app:layout_constraintEnd_toStartOf="@id/text_6"
             app:layout_constraintStart_toEndOf="@id/text_4"
             app:layout_constraintTop_toTopOf="parent" />
@@ -131,6 +139,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="토"
+            android:fontFamily="@font/fontstyle"
             android:textColor="@android:color/holo_blue_dark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_5"
@@ -150,6 +159,6 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/horiLine"/>
+        android:layout_below="@id/horiLine" />
 
 </RelativeLayout>

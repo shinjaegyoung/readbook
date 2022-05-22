@@ -11,15 +11,22 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#66FAF0D7"
-        android:fontFamily="cursive"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:title="독서모임">
+        android:background="#66FAF0D7">
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="독서 모임"
+            android:fontFamily="@font/fontstyle"
+            android:textSize="30sp"
+            android:textStyle="bold"/>
     </androidx.appcompat.widget.Toolbar>
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/groupList_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </LinearLayout>

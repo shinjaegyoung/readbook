@@ -19,6 +19,7 @@
             android:id="@+id/textReadList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/fontstyle"
             android:gravity="center"
             android:text="나의 독서 일기"
             android:textSize="30sp" />

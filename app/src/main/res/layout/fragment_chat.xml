@@ -9,11 +9,16 @@
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:fontFamily="cursive"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:background="#66FAF0D7"
-        app:title="채팅">
+        android:background="#66FAF0D7">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="채팅"
+            android:fontFamily="@font/fontstyle"
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

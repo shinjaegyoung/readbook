@@ -10,21 +10,25 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:background="#66FAF0D7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#66FAF0D7"
-        android:fontFamily="cursive"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:title="마이페이지">
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="마이페이지"
+            android:fontFamily="@font/fontstyle"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_darkmode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp" />
     </androidx.appcompat.widget.Toolbar>
 
     <LinearLayout
@@ -46,8 +50,8 @@
             android:id="@+id/profile_textview_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/fontstyle"
             android:layout_marginTop="10dp"
-
             android:textColor="#505050" />
 
         <EditText
@@ -80,6 +84,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:fontFamily="@font/fontstyle"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:text="회원정보 변경"
@@ -98,6 +103,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:clickable="true"
+                android:fontFamily="@font/fontstyle"
                 android:gravity="center"
                 android:text="내 상품"
                 android:textColor="@color/black"
@@ -117,6 +123,7 @@
                 android:layout_weight="1"
                 android:background="#00ff0000"
                 android:clickable="true"
+                android:fontFamily="@font/fontstyle"
                 android:gravity="center"
                 android:text="로그아웃"
                 android:textColor="@color/black"
@@ -137,6 +144,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/lasbeOrange"
+                android:fontFamily="@font/fontstyle"
                 android:text="나의 독서 캘린더"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -149,6 +157,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:backgroundTint="@color/lasbeOrange"
+                android:fontFamily="@font/fontstyle"
                 android:text="나의 독서 일기"
                 android:textSize="16sp"
                 android:textStyle="bold"

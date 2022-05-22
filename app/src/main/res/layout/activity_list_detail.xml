@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:gravity="center"
+            android:fontFamily="@font/fontstyle"
             android:text="독서 일기"
             android:textSize="30sp" />
     </androidx.appcompat.widget.Toolbar>
@@ -41,7 +42,7 @@
             android:ems="10"
             android:hint="책 제목"
             android:text=""
-            android:textSize="25dp"
+            android:textSize="20dp"
             android:padding="5dp" />
     </LinearLayout>
 
