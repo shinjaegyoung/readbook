@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#66FAF0D7"
     tools:context=".ListDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
