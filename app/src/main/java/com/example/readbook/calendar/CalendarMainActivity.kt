@@ -228,7 +228,6 @@ class CalendarMainActivity : AppCompatActivity() {
 
             //Log.d("dayCounts", "$dayCounts")
             Log.d("testDC", "$testDC")
-            Log.d("Kootest", "${auth.currentUser.toString()}")
             for(data in testDC) {
                 if (testDC[position]?.count!! == "1") {
                     Log.d("forfor", "success...................")
