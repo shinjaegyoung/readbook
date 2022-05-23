@@ -69,11 +69,16 @@ class CalendarMainActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     //Log.d("dayCount", "${snapshot.children}")
                     //Log.d("내부testDC", "success..................")
-                    testDC.clear()
+                    //testDC.clear()
                     Log.d("내부testDC", "$testDC")
                     for (data in snapshot.children) {
                         testDC.add(data.getValue<CalendarData>())
                         //println(data)
+                        if(data.getValue<CalendarData>()?.count == null){
+                            FirebaseDatabase.getInstance().reference.child("calendar")
+                                .child("${user?.uid}").child("$year")
+                                .child("${(month)+1}").setValue("${data.children}")
+                        }
                     }
                     //notifyDataSetChanged()
                     Log.d("내부testDC", "$testDC")
@@ -124,6 +129,7 @@ class CalendarMainActivity : AppCompatActivity() {
             calendar.set(Calendar.YEAR, year)
             calendarShow(calendar)
         }
+
         checkStamp()
         calendarShow(calendar)
 
@@ -245,6 +251,7 @@ class CalendarMainActivity : AppCompatActivity() {
 
                 if(curDate == holder.textDay.text){
                     if (!holder.stamp.isVisible){
+                        testDC.clear()
                         // 1을 저장하는 코드를 넣어주고
                         holder.stamp.visibility = View.VISIBLE
                         Toast.makeText(
@@ -257,6 +264,7 @@ class CalendarMainActivity : AppCompatActivity() {
                         addCount.setValue(calendardata)
 
                     }else if(holder.stamp.isVisible){
+                        testDC.clear()
                         // 0을 저장하는 코드를 넣어주고
                         holder.stamp.visibility = View.INVISIBLE
 

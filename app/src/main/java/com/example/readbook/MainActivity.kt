@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_profile.*
 
 private lateinit var auth: FirebaseAuth
 
@@ -28,8 +29,13 @@ class MainActivity : AppCompatActivity() {
 
         bottom_nav.setOnNavigationItemSelectedListener(BottomNavItemSelectedListener)
 
-        homeFragment = HomeFragment.newInstance()
-        supportFragmentManager.beginTransaction().add(R.id.fragments_frame, homeFragment).commit()
+
+            homeFragment = HomeFragment.newInstance()
+            supportFragmentManager.beginTransaction().add(R.id.fragments_frame, homeFragment).commit()
+
+
+
+
 
         //setSupportActionBar(findViewById(R.id.marketfragment_toolbar))
         //getSupportActionBar().setTitle("도서 거래")
@@ -38,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
     private val BottomNavItemSelectedListener =BottomNavigationView.OnNavigationItemSelectedListener {
         when (it.itemId) {
+
             R.id.menu_home -> {
                 homeFragment = HomeFragment.newInstance()
                 supportFragmentManager . beginTransaction ().replace(

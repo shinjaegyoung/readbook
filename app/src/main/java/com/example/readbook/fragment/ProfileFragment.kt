@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
 
@@ -163,11 +164,17 @@ class ProfileFragment : Fragment() {
             if(onSwitch) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 darkMode.isChecked = true
-                    //Dark 모드 설정
+
+
+                //Dark 모드 설정
+
             }else{
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 //Light  모드 설정
             }
+           /* val intent = Intent(context,HomeFragment::class.java)
+                context?.startActivity(intent)
+                activity?.finish()*/
         }
 
         // 캘린더, 다이어리로 이동
