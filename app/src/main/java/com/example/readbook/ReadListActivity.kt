@@ -43,7 +43,7 @@ class ReadListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId) {
         android.R.id.home -> {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, ReadListActivity::class.java)
             startActivity(intent)
             finish()
             true
