@@ -86,7 +86,7 @@ class CalendarMainActivity : AppCompatActivity() {
     }
 
     init{
-        checkStamp()
+       checkStamp()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

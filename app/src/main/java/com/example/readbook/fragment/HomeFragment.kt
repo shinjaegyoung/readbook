@@ -111,6 +111,11 @@ class HomeFragment : Fragment() {
                     for (data in snapshot.children) {
                         if(data.getValue<CalendarData>()?.count == "1"){
                             check++
+                        }else if(data.getValue<CalendarData>()?.count == null){
+                            fireDatabase.child("calendar").child("$uid").child("$curYear")
+                                .child("$curMonth").setValue("${data.children}")
+                            Log.d("tttttt", "${ fireDatabase.child("calendar").child("$uid").child("$curYear")
+                                .child("$curMonth").setValue("${data.children}")}")
                         }
                     }
                     binding.homeCpbContent1.text = "$check"
